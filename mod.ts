@@ -1,6 +1,6 @@
-import { path, flags, Dash, isMatch, PackType, FileType } from './deps.ts'
-import { DenoFileSystem } from './FileSystem.ts'
-import fileDefinitions from './fileDefinitions.json' assert { type: 'json' }
+import { path, flags, Dash, isMatch, PackType, FileType } from './src/deps.ts'
+import { DenoFileSystem } from './src/FileSystem.ts'
+import fileDefinitions from './src/fileDefinitions.json' assert { type: 'json' }
 
 if (import.meta.main) {
 	const fs = new DenoFileSystem()
@@ -20,6 +20,7 @@ if (import.meta.main) {
 		config: path.join(Deno.cwd(), 'config.json'),
 		packType: new PackTypeImpl(undefined),
 		fileType: new FileTypeImpl(undefined, isMatch),
+		mode: 'production',
 		requestJsonData: (dataPath: string) =>
 			fetch(
 				dataPath.replace(
