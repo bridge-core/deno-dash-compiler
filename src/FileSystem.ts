@@ -1,4 +1,4 @@
-import { FileSystem, path } from './deps.ts'
+import { FileSystem, path, json5 } from './deps.ts'
 
 export class DenoFileSystem extends FileSystem {
 	async readFile(filePath: string): Promise<File> {
@@ -14,6 +14,10 @@ export class DenoFileSystem extends FileSystem {
 		if (typeof content === 'string')
 			await Deno.writeTextFile(filePath, content)
 		else return Deno.writeFile(filePath, content)
+	}
+	async readJson(filePath: string): Promise<any> {
+		const fileContent = await Deno.readTextFile(filePath)
+		return json5.parse(fileContent)
 	}
 	async unlink(fPath: string): Promise<void> {
 		await Deno.remove(fPath, { recursive: true })

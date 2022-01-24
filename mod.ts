@@ -2,6 +2,14 @@ import { path, flags, Dash, isMatch, PackType, FileType } from './src/deps.ts'
 import { DenoFileSystem } from './src/FileSystem.ts'
 import fileDefinitions from './src/fileDefinitions.json' assert { type: 'json' }
 
+// @ts-ignore
+window.global = window
+// @ts-ignore
+window.process = {
+	cwd: () => '',
+	env: {},
+}
+
 if (import.meta.main) {
 	const fs = new DenoFileSystem()
 	class PackTypeImpl extends PackType {
