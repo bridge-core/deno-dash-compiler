@@ -11,6 +11,8 @@ window.process = {
 }
 
 if (import.meta.main) {
+	const { _, c } = flags.parse(Deno.args)
+
 	const fs = new DenoFileSystem()
 	class PackTypeImpl extends PackType {
 		async setup() {
@@ -26,6 +28,7 @@ if (import.meta.main) {
 	}
 	const dash = new Dash(fs, undefined, {
 		config: path.join(Deno.cwd(), 'config.json'),
+		compilerConfig: c ? path.join(Deno.cwd(), c) : undefined,
 		packType: new PackTypeImpl(undefined),
 		fileType: new FileTypeImpl(undefined, isMatch),
 		mode: 'production',
@@ -39,8 +42,6 @@ if (import.meta.main) {
 	})
 
 	await dash.setup()
-
-	const { _ } = flags.parse(Deno.args)
 
 	switch (_[0]) {
 		case 'build':
