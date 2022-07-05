@@ -1,0 +1,35 @@
+name: Build
+on:
+  push:
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+'
+  workflow_dispatch:
+jobs:
+  build-and-deploy:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v2.3.1
+        with:
+          persist-credentials: false
+      - name: Install Deno 🦕
+        uses: denoland/setup-deno@v1
+        with:
+          deno-version: v1.x
+      - name: 'Build Windows'
+        run: deno compile --target x86_64-pc-windows-msvc  --output ./executables/dash.exe -A ./mod.ts
+      - name: 'Build MacOS (x64)'
+        run: deno compile --target x86_64-apple-darwin --output ./executables/dash-apple-x64 -A ./mod.ts
+      - name: 'Build MacOS (aarch64)'
+        run: deno compile --target aarch64-apple-darwin --output ./executables/dash-apple-aarch64 -A ./mod.ts
+      - name: Commit build artifacts ✅
+        run: |
+          git config --local user.email "${{ github.event.pusher.email }}"
+          git config --local user.name "${{ github.event.pusher.name }}"
+          git add -A && git commit -m "upd: add executables for ${{ github.event.head_commit.message }}"
+      - name: Push changes 🔼
+        uses: ad-m/github-push-action@v0.6.0
+          with:
+            repository: 'bridge-core/deno-dash-compiler'
+            branch: 'main'
+            github_token: ${{ secrets.GITHUB_TOKEN }}

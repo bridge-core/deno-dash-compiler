@@ -1,32 +1,40 @@
 import { FileSystem, path, json5 } from './deps.ts'
 
 export class DenoFileSystem extends FileSystem {
-	async readFile(filePath: string): Promise<File> {
-		const fileData = await Deno.readFile(filePath)
+	constructor(protected baseDirectory: string = '.') {
+		super()
+	}
+
+	protected resolvePath(filePath: string) {
+		return path.join(this.baseDirectory, filePath)
+	}
+
+	async readFile(filePath: string) {
+		const fileData = await Deno.readFile(this.resolvePath(filePath))
 
 		return new File([fileData], path.basename(filePath))
 	}
-	async writeFile(
-		filePath: string,
-		content: string | Uint8Array
-	): Promise<void> {
-		await Deno.mkdir(path.dirname(filePath), { recursive: true })
+	async writeFile(filePath: string, content: string | Uint8Array) {
+		await Deno.mkdir(path.dirname(this.resolvePath(filePath)), {
+			recursive: true,
+		})
+
 		if (typeof content === 'string')
-			await Deno.writeTextFile(filePath, content)
-		else return Deno.writeFile(filePath, content)
+			await Deno.writeTextFile(this.resolvePath(filePath), content)
+		else return Deno.writeFile(this.resolvePath(filePath), content)
 	}
-	async readJson(filePath: string): Promise<any> {
-		const fileContent = await Deno.readTextFile(filePath)
+	async readJson(filePath: string) {
+		const fileContent = await Deno.readTextFile(this.resolvePath(filePath))
 		return json5.parse(fileContent)
 	}
-	async unlink(fPath: string): Promise<void> {
-		await Deno.remove(fPath, { recursive: true })
+	async unlink(path: string) {
+		await Deno.remove(this.resolvePath(path), { recursive: true })
 	}
 	async readdir(path: string) {
-		let entries = []
+		const entries = []
 
-		for await (const entry of await Deno.readDir(path)) {
-			entries.push({
+		for await (const entry of Deno.readDir(this.resolvePath(path))) {
+			entries.push(<const>{
 				name: entry.name,
 				kind: entry.isDirectory ? 'directory' : 'file',
 			})
@@ -35,9 +43,11 @@ export class DenoFileSystem extends FileSystem {
 		return entries
 	}
 	async mkdir(path: string): Promise<void> {
-		await Deno.mkdir(path, { recursive: true })
+		await Deno.mkdir(this.resolvePath(path), { recursive: true })
 	}
-	async lastModified(filePath: string): Promise<number> {
-		return (await Deno.stat(filePath)).mtime?.getTime() ?? 0
+	async lastModified(filePath: string) {
+		return (
+			(await Deno.stat(this.resolvePath(filePath))).mtime?.getTime() ?? 0
+		)
 	}
 }
