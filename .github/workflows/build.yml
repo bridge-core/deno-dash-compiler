@@ -20,9 +20,9 @@ jobs:
               run: deno task build
             - name: Commit build artifacts ✅
               run: |
-                  git config --local user.email "${{ github.event.pusher.email }}"
-                  git config --local user.name "${{ github.event.pusher.name }}"
-                  git add -A && git commit -m "upd: add executables for ${{ github.event.head_commit.message }}"
+                  git config --local user.email "action@github.com"
+                  git config --local user.name "GitHub Action"
+                  git add -A && git commit -m "upd: add latest executables"
             - name: Push changes 🔼
               uses: ad-m/github-push-action@v0.6.0
               with:
