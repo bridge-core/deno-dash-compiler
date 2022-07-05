@@ -16,12 +16,8 @@ jobs:
               uses: denoland/setup-deno@v1
               with:
                   deno-version: v1.x
-            - name: 'Build Windows'
-              run: deno compile --target x86_64-pc-windows-msvc  --output ./executables/dash.exe -A ./mod.ts
-            - name: 'Build MacOS (x64)'
-              run: deno compile --target x86_64-apple-darwin --output ./executables/dash-apple-x64 -A ./mod.ts
-            - name: 'Build MacOS (aarch64)'
-              run: deno compile --target aarch64-apple-darwin --output ./executables/dash-apple-aarch64 -A ./mod.ts
+            - name: 'Build Executable'
+              run: deno task build
             - name: Commit build artifacts ✅
               run: |
                   git config --local user.email "${{ github.event.pusher.email }}"
