@@ -6,6 +6,10 @@ export class DenoFileSystem extends FileSystem {
 	}
 
 	protected resolvePath(filePath: string) {
+		// console.log(filePath)
+		if (this.baseDirectory === '') return filePath
+
+		// console.log(path.join(this.baseDirectory, filePath))
 		return path.join(this.baseDirectory, filePath)
 	}
 

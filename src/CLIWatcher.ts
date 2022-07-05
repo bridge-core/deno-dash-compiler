@@ -1,4 +1,4 @@
-import { Dash, debounce } from './deps.ts'
+import { Dash, debounce, path } from './deps.ts'
 
 export class CLIWatcher {
 	protected filesToUnlink = new Set<string>()
@@ -18,20 +18,31 @@ export class CLIWatcher {
 				event.paths.forEach((path) => {
 					if (this.ignorePath(path)) return
 
-					this.filesToUpdate.add(path.replace(/\\/g, '/'))
-					this.filesToUnlink.delete(path.replace(/\\/g, '/'))
+					const transformed = this.transformPath(path)
+					console.log(transformed, path)
+
+					this.filesToUpdate.add(transformed)
+					this.filesToUnlink.delete(transformed)
 				})
 			} else if (event.kind === 'remove') {
 				event.paths.forEach((path) => {
 					if (this.ignorePath(path)) return
 
-					this.filesToUnlink.add(path.replace(/\\/g, '/'))
-					this.filesToUpdate.delete(path.replace(/\\/g, '/'))
+					const transformed = this.transformPath(path)
+
+					this.filesToUnlink.add(transformed)
+					this.filesToUpdate.delete(transformed)
 				})
 			}
 
 			this.updateChangedFiles()
 		}
+	}
+
+	transformPath(filePath: string) {
+		return path
+			.relative(this.dash.projectRoot, filePath)
+			.replace(/\\/g, '/')
 	}
 
 	ignorePath(path: string) {
@@ -44,11 +55,19 @@ export class CLIWatcher {
 
 	updateChangedFiles = debounce(
 		async () => {
+			for (const file of this.filesToUpdate) {
+				let stats
+				try {
+					stats = Deno.statSync(file)
+				} catch {
+					this.filesToUpdate.delete(file)
+					return
+				}
+
+				if (!stats.isFile) this.filesToUpdate.delete(file)
+			}
+
 			if (this.filesToUpdate.size > 0) {
-				console.log(
-					'Dash: Updating',
-					[...this.filesToUpdate].join(', ')
-				)
 				await this.dash.updateFiles([...this.filesToUpdate])
 			}
 
