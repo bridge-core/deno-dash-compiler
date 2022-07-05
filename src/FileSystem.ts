@@ -1,7 +1,7 @@
 import { FileSystem, path, json5 } from './deps.ts'
 
 export class DenoFileSystem extends FileSystem {
-	constructor(protected baseDirectory: string = '.') {
+	constructor(protected baseDirectory: string = '') {
 		super()
 	}
 

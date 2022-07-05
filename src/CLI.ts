@@ -35,6 +35,7 @@ export class CLI {
 				? new DenoFileSystem(this.out ?? comMojangFolder)
 				: undefined
 
+		console.log(path.join(Deno.cwd(), 'config.json'))
 		this.dash = new Dash(this.fs, this.outFs, {
 			config: path.join(Deno.cwd(), 'config.json'),
 			compilerConfig: this.compilerConfig
@@ -57,6 +58,7 @@ export class CLI {
 
 	async run() {
 		await this.dash.setup()
+		console.log(this.dash.projectConfig.get())
 
 		switch (this.dashCommand) {
 			case 'build':

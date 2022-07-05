@@ -16,13 +16,17 @@ export class CLIWatcher {
 
 			if (event.kind === 'create' || event.kind === 'modify') {
 				event.paths.forEach((path) => {
-					this.filesToUpdate.add(path)
-					this.filesToUnlink.delete(path)
+					if (this.ignorePath(path)) return
+
+					this.filesToUpdate.add(path.replace(/\\/g, '/'))
+					this.filesToUnlink.delete(path.replace(/\\/g, '/'))
 				})
 			} else if (event.kind === 'remove') {
 				event.paths.forEach((path) => {
-					this.filesToUnlink.add(path)
-					this.filesToUpdate.delete(path)
+					if (this.ignorePath(path)) return
+
+					this.filesToUnlink.add(path.replace(/\\/g, '/'))
+					this.filesToUpdate.delete(path.replace(/\\/g, '/'))
 				})
 			}
 
@@ -30,12 +34,31 @@ export class CLIWatcher {
 		}
 	}
 
+	ignorePath(path: string) {
+		return (
+			path.endsWith('.crswap') ||
+			path.endsWith('.DS_Store') ||
+			path.includes('.bridge')
+		)
+	}
+
 	updateChangedFiles = debounce(
 		async () => {
-			if (this.filesToUpdate.size > 0)
+			if (this.filesToUpdate.size > 0) {
+				console.log(
+					'Dash: Updating',
+					[...this.filesToUpdate].join(', ')
+				)
 				await this.dash.updateFiles([...this.filesToUpdate])
-			if (this.filesToUnlink.size > 0)
+			}
+
+			if (this.filesToUnlink.size > 0) {
+				console.log(
+					'Dash: Unlinking',
+					[...this.filesToUnlink].join(', ')
+				)
 				await this.dash.unlinkMultiple([...this.filesToUnlink])
+			}
 
 			this.filesToUpdate.clear()
 			this.filesToUnlink.clear()
