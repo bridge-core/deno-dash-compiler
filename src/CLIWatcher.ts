@@ -12,6 +12,8 @@ export class CLIWatcher {
 		const watcher = Deno.watchFs(this.dash.projectRoot)
 
 		for await (const event of watcher) {
+			if (['success', 'other', 'any'].includes(event.kind)) continue
+
 			if (event.kind === 'create' || event.kind === 'modify') {
 				event.paths.forEach((path) => {
 					this.filesToUpdate.add(path)
@@ -28,11 +30,19 @@ export class CLIWatcher {
 		}
 	}
 
-	updateChangedFiles = debounce(async () => {
-		await this.dash.updateFiles([...this.filesToUpdate])
-		await this.dash.unlinkMultiple([...this.filesToUnlink])
+	updateChangedFiles = debounce(
+		async () => {
+			if (this.filesToUpdate.size > 0)
+				await this.dash.updateFiles([...this.filesToUpdate])
+			if (this.filesToUnlink.size > 0)
+				await this.dash.unlinkMultiple([...this.filesToUnlink])
 
-		this.filesToUpdate.clear()
-		this.filesToUnlink.clear()
-	}, 500)
+			this.filesToUpdate.clear()
+			this.filesToUnlink.clear()
+		},
+		1000,
+		{
+			trailing: true,
+		}
+	)
 }

@@ -31,7 +31,7 @@ export class CLI {
 
 		this.fs = new DenoFileSystem()
 		this.outFs =
-			this.dashCommand === 'watch' && (this.out || comMojangFolder)
+			this.out || comMojangFolder
 				? new DenoFileSystem(this.out ?? comMojangFolder)
 				: undefined
 
