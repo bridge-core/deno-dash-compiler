@@ -2,7 +2,7 @@
 
 ## Installation
 
-Make sure that you have Deno installed. Then run `deno install -A -n dash_compiler https://deno.land/x/dash_compiler/mod.ts` within your terminal.
+Make sure that you have Deno installed. Then run `deno install -A -n dash_compiler https://raw.githubusercontent.com/bridge-core/deno-dash-compiler/main/mod.ts` within your terminal.
 
 ## Usage
 
