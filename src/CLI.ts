@@ -4,47 +4,27 @@ import { Dash, flags, isMatch, path } from './deps.ts'
 import { DenoFileSystem } from './FileSystem.ts'
 import { FileTypeImpl, PackTypeImpl } from './McProjectCore.ts'
 
+interface IDashOptions {
+	mode: 'development' | 'production'
+	compilerConfig?: string
+	out?: string
+}
 export class CLI {
-	protected fs: DenoFileSystem
-	protected outFs?: DenoFileSystem
-	protected dash: Dash
+	protected fs = new DenoFileSystem()
 
-	protected args: ReturnType<typeof flags.parse>
-	get dashCommand() {
-		const command = this.args._[0]
+	async createDashService({ mode, compilerConfig, out }: IDashOptions) {
+		console.log(out)
+		const outFs = out ? new DenoFileSystem(out) : undefined
 
-		if (typeof command === 'string') return command
-		return null
-	}
-	get out() {
-		return this.args.out
-	}
-	get mode() {
-		return this.args.mode
-	}
-	get compilerConfig() {
-		return this.args.compilerConfig
-	}
-
-	constructor(args: string[]) {
-		this.args = flags.parse(args)
-
-		this.fs = new DenoFileSystem()
-		this.outFs =
-			this.out ?? comMojangFolder
-				? new DenoFileSystem(this.out ?? comMojangFolder)
-				: undefined
-
-		this.dash = new Dash(this.fs, this.outFs, {
+		const dash = new Dash(this.fs, outFs, {
 			config: path.join(Deno.cwd(), 'config.json'),
-			compilerConfig: this.compilerConfig
-				? path.join(Deno.cwd(), this.compilerConfig)
+			compilerConfig: compilerConfig
+				? path.join(Deno.cwd(), compilerConfig)
 				: undefined,
 			packType: new PackTypeImpl(undefined),
 			fileType: new FileTypeImpl(undefined, isMatch),
-			mode:
-				this.mode ??
-				(this.dashCommand === 'watch' ? 'development' : 'production'),
+			mode,
+
 			requestJsonData: (dataPath: string) =>
 				fetch(
 					dataPath.replace(
@@ -53,22 +33,20 @@ export class CLI {
 					)
 				).then((resp) => resp.json()),
 		})
+
+		await dash.setup()
+
+		return dash
 	}
 
-	async run() {
-		await this.dash.setup()
-
-		switch (this.dashCommand) {
-			case 'build':
-				await this.dash.build()
-				break
-
-			case 'watch':
-				await new CLIWatcher(this.dash).watch()
-				break
-
-			default:
-				break
-		}
+	async build(options: IDashOptions) {
+		const dash = await this.createDashService(options)
+		await dash.build()
+		console.log(dash.isCompilerActivated, options.compilerConfig)
+	}
+	async watch(options: IDashOptions) {
+		const dash = await this.createDashService(options)
+		await dash.build()
+		await new CLIWatcher(dash).watch()
 	}
 }

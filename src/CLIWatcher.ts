@@ -6,6 +6,10 @@ export class CLIWatcher {
 
 	constructor(protected dash: Dash) {}
 
+	get bridgeFolder() {
+		return path.join(this.dash.projectRoot, '../..')
+	}
+
 	async watch() {
 		console.log(`Dash is starting to watch "${this.dash.projectRoot}"!`)
 
@@ -14,35 +18,28 @@ export class CLIWatcher {
 		for await (const event of watcher) {
 			if (['success', 'other', 'any'].includes(event.kind)) continue
 
-			if (event.kind === 'create' || event.kind === 'modify') {
-				event.paths.forEach((path) => {
-					if (this.ignorePath(path)) return
+			event.paths.forEach((path) => {
+				if (this.ignorePath(path)) return
 
-					const transformed = this.transformPath(path)
-					console.log(transformed, path)
+				const transformed = this.transformPath(path)
+				if (transformed.startsWith('builds/')) return
+				console.log(transformed, path)
 
+				if (event.kind === 'create' || event.kind === 'modify') {
 					this.filesToUpdate.add(transformed)
 					this.filesToUnlink.delete(transformed)
-				})
-			} else if (event.kind === 'remove') {
-				event.paths.forEach((path) => {
-					if (this.ignorePath(path)) return
-
-					const transformed = this.transformPath(path)
-
+				} else if (event.kind === 'remove') {
 					this.filesToUnlink.add(transformed)
 					this.filesToUpdate.delete(transformed)
-				})
-			}
+				}
+			})
 
 			this.updateChangedFiles()
 		}
 	}
 
 	transformPath(filePath: string) {
-		return path
-			.relative(this.dash.projectRoot, filePath)
-			.replace(/\\/g, '/')
+		return path.relative(this.bridgeFolder, filePath).replace(/\\/g, '/')
 	}
 
 	ignorePath(path: string) {
@@ -58,9 +55,10 @@ export class CLIWatcher {
 			for (const file of this.filesToUpdate) {
 				let stats
 				try {
-					stats = Deno.statSync(file)
+					stats = Deno.statSync(path.join(this.bridgeFolder, file))
 				} catch {
 					this.filesToUpdate.delete(file)
+					this.filesToUnlink.add(file)
 					return
 				}
 
