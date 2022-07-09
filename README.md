@@ -15,6 +15,8 @@ There are multiple options to install Dash:
 
 `dash_compiler build`: Loads all plugins and builds the project inside of your current working directory in production mode.
 - `--mode development`: Tell bridge. that you want to compile a development build
+- `--compilerConfig [path]`: Compile the project with a different set of plugins
 
 ### Watching for changes
 `dash_compiler watch`: Recompile files whenever you make changes to your project
+- `--out [path]` Set a directory to output to. Default: com.mojang folder; use `--out preview` to instead output to Minecraft Preview
