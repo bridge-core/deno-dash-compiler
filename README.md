@@ -1,8 +1,13 @@
 # deno-dash-compiler
+Dash is an efficient compiler for Minecraft Add-Ons.
+This project uses the [Dash compiler library](https://github.com/bridge-core/dash-compiler) to provide bridge.'s built-in compiler as a standalone CLI program.
 
 ## Installation
 
-Make sure that you have Deno installed. Then run `deno install -A -n dash_compiler https://raw.githubusercontent.com/bridge-core/deno-dash-compiler/main/mod.ts` within your terminal.
+There are multiple options to install Dash:
+- Make sure that you have Deno installed. Then run `deno install -A -n dash_compiler https://raw.githubusercontent.com/bridge-core/deno-dash-compiler/main/mod.ts` within your terminal
+- Make sure that you have Deno installed and that you've create your project with bridge. v2.3 or higher. Within your terminal, navigate to the project root and run `deno task setup` to install Dash.
+- Download a standalone executable from the [`/executables` folder](https://github.com/bridge-core/deno-dash-compiler/tree/main/executables)
 
 ## Usage
 
