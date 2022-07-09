@@ -80,7 +80,7 @@ export class CLIWatcher {
 			this.filesToUpdate.clear()
 			this.filesToUnlink.clear()
 		},
-		1000,
+		200,
 		{
 			trailing: true,
 		}
