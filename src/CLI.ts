@@ -13,7 +13,6 @@ export class CLI {
 	protected fs = new DenoFileSystem()
 
 	async createDashService({ mode, compilerConfig, out }: IDashOptions) {
-		console.log(out)
 		const outFs = out ? new DenoFileSystem(out) : undefined
 
 		const dash = new Dash(this.fs, outFs, {
@@ -50,7 +49,12 @@ export class CLI {
 
 		const dash = await this.createDashService(options)
 		await dash.build()
-		console.log(dash.isCompilerActivated, options.compilerConfig)
+		console.log(
+			dash.projectConfig.getAvailablePackPaths()[0],
+			await this.fs.allFiles(
+				dash.projectConfig.getAvailablePackPaths()[0]
+			)
+		)
 	}
 	async watch(options: IDashOptions) {
 		this.verifyOptions(options)
