@@ -7,10 +7,6 @@ export class CLIWatcher {
 
 	constructor(protected dash: Dash) {}
 
-	get bridgeFolder() {
-		return path.join(this.dash.projectRoot, '../..')
-	}
-
 	async watch() {
 		console.log(`Dash is starting to watch "${this.dash.projectRoot}"!`)
 
@@ -39,7 +35,9 @@ export class CLIWatcher {
 	}
 
 	transformPath(filePath: string) {
-		return path.relative(this.bridgeFolder, filePath).replace(/\\/g, '/')
+		return path
+			.relative(this.dash.projectRoot, filePath)
+			.replace(/\\/g, '/')
 	}
 
 	ignorePath(path: string) {
@@ -53,10 +51,11 @@ export class CLIWatcher {
 	updateChangedFiles = debounce(
 		async () => {
 			for (const file of this.filesToUpdate) {
-				console.log(file, path.join(this.bridgeFolder, file))
 				let stats
 				try {
-					stats = Deno.statSync(path.join(this.bridgeFolder, file))
+					stats = Deno.statSync(
+						path.join(this.dash.projectRoot, file)
+					)
 				} catch {
 					this.filesToUpdate.delete(file)
 					this.filesToUnlink.add(file)

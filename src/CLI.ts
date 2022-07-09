@@ -10,7 +10,7 @@ interface IDashOptions {
 	out?: string | null
 }
 export class CLI {
-	protected fs = new DenoFileSystem(path.join(Deno.cwd(), '../..'))
+	protected fs = new DenoFileSystem()
 
 	async createDashService({ mode, compilerConfig, out }: IDashOptions) {
 		console.log(out)
@@ -54,8 +54,8 @@ export class CLI {
 	}
 	async watch(options: IDashOptions) {
 		this.verifyOptions(options)
-
 		const dash = await this.createDashService(options)
+
 		await dash.build()
 		await new CLIWatcher(dash).watch()
 	}
