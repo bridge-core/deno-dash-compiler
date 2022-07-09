@@ -1,5 +1,6 @@
 import { CLI } from './src/CLI.ts'
 import yargs from 'yargs'
+import { comMojangFolder } from './src/comMojangFolder.ts'
 
 // @ts-ignore: Required by some of our dependencies
 window.global = window
@@ -32,9 +33,13 @@ if (import.meta.main) {
 						default: 'production',
 						choices: ['development', 'production'],
 					})
+					.option('compilerConfig', {
+						alias: 'c',
+						description: 'The compiler config file',
+						type: 'string',
+					})
 			},
 			async (argv: any) => {
-				console.log('COMMAND RAN', argv)
 				await cli.build(argv)
 			}
 		)
@@ -47,6 +52,7 @@ if (import.meta.main) {
 						alias: 'o',
 						description: 'The output directory',
 						type: 'string',
+						default: comMojangFolder,
 					})
 					.option('mode', {
 						alias: 'm',
@@ -55,9 +61,13 @@ if (import.meta.main) {
 						default: 'development',
 						choices: ['development', 'production'],
 					})
+					.option('compilerConfig', {
+						alias: 'c',
+						description: 'The compiler config file',
+						type: 'string',
+					})
 			},
 			async (argv: any) => {
-				console.log('COMMAND RAN', argv)
 				await cli.watch(argv)
 			}
 		)

@@ -6,8 +6,9 @@ export class DenoFileSystem extends FileSystem {
 	}
 
 	protected resolvePath(filePath: string) {
-		// console.log(filePath)
-		if (this.baseDirectory === '') return filePath
+		// If filePath is absolute path or no baseDirectory is set, return filePath
+		if (this.baseDirectory === '' || path.isAbsolute(filePath))
+			return filePath
 
 		// console.log(path.join(this.baseDirectory, filePath))
 		return path.join(this.baseDirectory, filePath)

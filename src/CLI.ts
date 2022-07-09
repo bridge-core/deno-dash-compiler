@@ -1,16 +1,16 @@
 import { CLIWatcher } from './CLIWatcher.ts'
-import { comMojangFolder } from './comMojangFolder.ts'
-import { Dash, flags, isMatch, path } from './deps.ts'
+import { previewComMojangFolder } from './comMojangFolder.ts'
+import { Dash, isMatch, path } from './deps.ts'
 import { DenoFileSystem } from './FileSystem.ts'
 import { FileTypeImpl, PackTypeImpl } from './McProjectCore.ts'
 
 interface IDashOptions {
 	mode: 'development' | 'production'
 	compilerConfig?: string
-	out?: string
+	out?: string | null
 }
 export class CLI {
-	protected fs = new DenoFileSystem()
+	protected fs = new DenoFileSystem(path.join(Deno.cwd(), '../..'))
 
 	async createDashService({ mode, compilerConfig, out }: IDashOptions) {
 		console.log(out)
@@ -39,12 +39,22 @@ export class CLI {
 		return dash
 	}
 
+	verifyOptions(options: IDashOptions) {
+		if (options.out === 'preview') {
+			options.out = previewComMojangFolder ?? undefined
+		}
+	}
+
 	async build(options: IDashOptions) {
+		this.verifyOptions(options)
+
 		const dash = await this.createDashService(options)
 		await dash.build()
 		console.log(dash.isCompilerActivated, options.compilerConfig)
 	}
 	async watch(options: IDashOptions) {
+		this.verifyOptions(options)
+
 		const dash = await this.createDashService(options)
 		await dash.build()
 		await new CLIWatcher(dash).watch()

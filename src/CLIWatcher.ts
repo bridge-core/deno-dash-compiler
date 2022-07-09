@@ -1,5 +1,6 @@
 import { Dash, debounce, path } from './deps.ts'
 
+const outputFolderPattern = path.globToRegExp('projects/*/builds/**')
 export class CLIWatcher {
 	protected filesToUnlink = new Set<string>()
 	protected filesToUpdate = new Set<string>()
@@ -22,8 +23,7 @@ export class CLIWatcher {
 				if (this.ignorePath(path)) return
 
 				const transformed = this.transformPath(path)
-				if (transformed.startsWith('builds/')) return
-				console.log(transformed, path)
+				if (transformed.match(outputFolderPattern)) return
 
 				if (event.kind === 'create' || event.kind === 'modify') {
 					this.filesToUpdate.add(transformed)
@@ -53,6 +53,7 @@ export class CLIWatcher {
 	updateChangedFiles = debounce(
 		async () => {
 			for (const file of this.filesToUpdate) {
+				console.log(file, path.join(this.bridgeFolder, file))
 				let stats
 				try {
 					stats = Deno.statSync(path.join(this.bridgeFolder, file))
