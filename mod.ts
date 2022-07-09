@@ -1,3 +1,4 @@
+// deno-lint-ignore-file no-explicit-any
 import { CLI } from './src/CLI.ts'
 import yargs from 'yargs'
 import { comMojangFolder } from './src/comMojangFolder.ts'

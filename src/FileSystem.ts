@@ -39,7 +39,6 @@ export class DenoFileSystem extends FileSystem {
 		const entries = []
 
 		for await (const entry of Deno.readDir(this.resolvePath(path))) {
-			console.log(entry.name)
 			entries.push(<const>{
 				name: entry.name,
 				kind: entry.isDirectory ? 'directory' : 'file',

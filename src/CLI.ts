@@ -1,3 +1,4 @@
+// deno-lint-ignore-file no-explicit-any
 import { CLIWatcher } from './CLIWatcher.ts'
 import { previewComMojangFolder } from './comMojangFolder.ts'
 import { Dash, isMatch, path } from './deps.ts'
@@ -16,12 +17,12 @@ export class CLI {
 		const outFs = out ? new DenoFileSystem(out) : undefined
 
 		const dash = new Dash(this.fs, outFs, {
-			config: path.join(Deno.cwd(), 'config.json'),
+			config: './config.json',
 			compilerConfig: compilerConfig
 				? path.join(Deno.cwd(), compilerConfig)
 				: undefined,
-			packType: new PackTypeImpl(undefined),
-			fileType: new FileTypeImpl(undefined, isMatch),
+			packType: <any>new PackTypeImpl(undefined),
+			fileType: <any>new FileTypeImpl(undefined, isMatch),
 			mode,
 
 			requestJsonData: (dataPath: string) =>
@@ -49,12 +50,6 @@ export class CLI {
 
 		const dash = await this.createDashService(options)
 		await dash.build()
-		console.log(
-			dash.projectConfig.getAvailablePackPaths()[0],
-			await this.fs.allFiles(
-				dash.projectConfig.getAvailablePackPaths()[0]
-			)
-		)
 	}
 	async watch(options: IDashOptions) {
 		this.verifyOptions(options)
