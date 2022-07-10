@@ -13,7 +13,7 @@ export class WebSocketServer {
                 const { socket, response } = Deno.upgradeWebSocket(event.request)
                 this.socket = socket
                 await event.respondWith(response)
-                this.socket.onopen = () => console.log('WebSocket connection established!')
+                console.log('WebSocket connection established!')
                 this.socket.onclose = () => console.log('WebSocket connection closed!')
             }
         })
