@@ -67,6 +67,12 @@ if (import.meta.main) {
 						description: 'The compiler config file',
 						type: 'string',
 					})
+					.option('reload', {
+						alias: 'r',
+						description: 'Quick reload for functions and scripts',
+						type: 'number',
+						default: 8080
+					})
 			},
 			async (argv: any) => {
 				await cli.watch(argv)

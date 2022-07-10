@@ -1,4 +1,5 @@
 import { Dash, debounce, path } from './deps.ts'
+import { WebSocketServer } from './WebSocket.ts'
 
 const outputFolderPattern = path.globToRegExp('projects/*/builds/**')
 export class CLIWatcher {
@@ -7,10 +8,16 @@ export class CLIWatcher {
 
 	constructor(protected dash: Dash) {}
 
-	async watch() {
+	async watch(reloadPort?: number) {
 		console.log(`Dash is starting to watch "${this.dash.projectRoot}"!`)
 
 		const watcher = Deno.watchFs(this.dash.projectRoot)
+		const wsServer = new WebSocketServer()
+		if (reloadPort) {
+			wsServer.start(reloadPort)
+			console.log(`Auto Reloader: WebSocket is running on port ${reloadPort}.`)
+			console.log(`Auto Reloader: Connect in Minecraft by running "/connect localhost:${reloadPort}".`)
+		}
 
 		for await (const event of watcher) {
 			if (['success', 'other', 'any'].includes(event.kind)) continue
@@ -30,7 +37,7 @@ export class CLIWatcher {
 				}
 			})
 
-			this.updateChangedFiles()
+			this.updateChangedFiles(reloadPort ? wsServer : undefined)
 		}
 	}
 
@@ -49,7 +56,7 @@ export class CLIWatcher {
 	}
 
 	updateChangedFiles = debounce(
-		async () => {
+		async (wss?: WebSocketServer) => {
 			for (const file of this.filesToUpdate) {
 				let stats
 				try {
@@ -75,6 +82,15 @@ export class CLIWatcher {
 					[...this.filesToUnlink].join(', ')
 				)
 				await this.dash.unlinkMultiple([...this.filesToUnlink])
+			}
+			if (wss && wss.isStarted) {
+				const isScriptOrFunction = (p: string) => path.extname(p) === '.mcfunction' || path.extname(p) === '.js' || path.extname(p) === '.ts'
+				for (const file of this.filesToUpdate) {
+					if (isScriptOrFunction(file)) {
+						wss.runCommand('reload')
+						wss.runCommand('tellraw @s {"rawtext":[{"text":"Dash Auto Reloader has reloaded functions and scripts"}]}')
+					}
+				}
 			}
 
 			this.filesToUpdate.clear()

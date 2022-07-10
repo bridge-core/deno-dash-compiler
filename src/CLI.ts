@@ -9,6 +9,7 @@ interface IDashOptions {
 	mode: 'development' | 'production'
 	compilerConfig?: string
 	out?: string | null
+	reload?: number
 }
 export class CLI {
 	protected fs = new DenoFileSystem()
@@ -56,6 +57,6 @@ export class CLI {
 		const dash = await this.createDashService(options)
 
 		await dash.build()
-		await new CLIWatcher(dash).watch()
+		await new CLIWatcher(dash).watch(options.reload)
 	}
 }
