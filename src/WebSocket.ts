@@ -40,12 +40,12 @@ export class WebSocketServer {
     async setLoopbackExemption() {
         // Minecraft Retail Build
         const retail = Deno.run({
-            cmd: ['CheckNetIsolation.exe', 'LoopbackExempt', '-a', '-p=S-1-15-2-1958404141-86561845-1752920682-3514627264-368642714-62675701-733520436'],
+            cmd: ['CheckNetIsolation.exe', 'LoopbackExempt', '-is', '-n=microsoft.minecraftuwp_8wekyb3d8bbwe'],
             stdout: 'null',
         })
         // Minecraft Preview Build
         const preview = Deno.run({
-            cmd: ['CheckNetIsolation.exe', 'LoopbackExempt', '-a', '-p=S-1-15-2-424268864-5579737-879501358-346833251-474568803-887069379-4040235476'],
+            cmd: ['CheckNetIsolation.exe', 'LoopbackExempt', '-is', '-n=microsoft.minecraftwindowsbeta_8wekyb3d8bbwe'],
             stdout: 'null',
         })
 
