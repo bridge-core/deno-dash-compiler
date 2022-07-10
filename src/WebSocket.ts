@@ -40,23 +40,22 @@ export class WebSocketServer {
     async setLoopbackExemption() {
         // Minecraft Retail Build
         const retail = Deno.run({
-            cmd: ['CheckNetIsolation.exe', 'LoopbackExempt', '-is', '-n=microsoft.minecraftuwp_8wekyb3d8bbwe'],
+            cmd: ['CheckNetIsolation.exe', 'LoopbackExempt', '-a', '-n=microsoft.minecraftuwp_8wekyb3d8bbwe'],
             stdout: 'null',
         })
-        // Minecraft Preview Build
-        const preview = Deno.run({
-            cmd: ['CheckNetIsolation.exe', 'LoopbackExempt', '-is', '-n=microsoft.minecraftwindowsbeta_8wekyb3d8bbwe'],
-            stdout: 'null',
-        })
-
         const retailStat = await retail.status()
-        const previewStat = await retail.status()
-
         if (retailStat.code !== 0)
             console.log('Unable to set network loopback exemption for Minecraft retail build.')
+        retail.close()
+
+        // Minecraft Preview Build
+        const preview = Deno.run({
+            cmd: ['CheckNetIsolation.exe', 'LoopbackExempt', '-a', '-n=Microsoft.MinecraftWindowsBeta_8wekyb3d8bbwe'],
+            stdout: 'null',
+        })
+        const previewStat = await preview.status()
         if (previewStat.code !== 0)
             console.log('Unable to set network loopback exemption for Minecraft preview build.')
-        retail.close()
         preview.close()
     }
 }
