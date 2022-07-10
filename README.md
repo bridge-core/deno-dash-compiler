@@ -20,4 +20,4 @@ There are multiple options to install Dash:
 ### Watching for changes
 `dash_compiler watch`: Recompile files whenever you make changes to your project
 - `--out [path]` Set a directory to output to. Default: com.mojang folder; use `--out preview` to instead output to Minecraft Preview
-- `--reload [port]` Open a WebSocket which, once connected, runs the `/reload` command in Minecraft when a script or function is updated. Default port: `8080`
+- `--reload [port]` Open a WebSocket which, once connected, runs the `/reload` command in Minecraft when a script or function is updated. Default port: `8080`. This option requires the Minecraft client to be exempt from network loopback restrictions; this exemption is set automatically.
