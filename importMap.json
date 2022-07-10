@@ -1,5 +1,0 @@
-{
-	"imports": {
-		"yargs": "https://deno.land/x/yargs/deno.ts"
-	}
-}

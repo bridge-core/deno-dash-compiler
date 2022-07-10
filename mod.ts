@@ -1,6 +1,6 @@
 // deno-lint-ignore-file no-explicit-any
 import { CLI } from './src/CLI.ts'
-import yargs from 'yargs'
+import yargs from "https://deno.land/x/yargs@v17.5.1-deno/deno.ts"
 import { comMojangFolder } from './src/comMojangFolder.ts'
 
 // @ts-ignore: Required by some of our dependencies
@@ -71,7 +71,11 @@ if (import.meta.main) {
 						alias: 'r',
 						description: 'Quick reload for functions and scripts',
 						type: 'number',
-						default: 8080
+					})
+					// Need to use coerce rather than "default" so we can differentiate between when the option isn't used or is used without an argument
+					.coerce('reload', (arg: any) => {
+						if (!arg) return 8080
+						else return arg
 					})
 			},
 			async (argv: any) => {

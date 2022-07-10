@@ -1,5 +1,4 @@
 {
-	"importMap": "importMap.json",
 	"tasks": {
 		"install": "deno install -A -f -n dash_compiler ./mod.ts",
 		"install:full": "deno install -A --reload -f -n dash_compiler ./mod.ts",
