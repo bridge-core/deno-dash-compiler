@@ -85,11 +85,9 @@ export class CLIWatcher {
 			}
 			if (wss && wss.isStarted) {
 				const isScriptOrFunction = (p: string) => path.extname(p) === '.mcfunction' || path.extname(p) === '.js' || path.extname(p) === '.ts'
-				for (const file of this.filesToUpdate) {
-					if (isScriptOrFunction(file)) {
-						wss.runCommand('reload')
-						wss.runCommand('tellraw @s {"rawtext":[{"text":"Dash Auto Reloader has reloaded functions and scripts"}]}')
-					}
+				if ([...this.filesToUpdate, ...this.filesToUnlink].some(file => isScriptOrFunction(file))) {
+					wss.runCommand('reload')
+					wss.runCommand('tellraw @s {"rawtext":[{"text":"Dash Auto Reloader has reloaded functions and scripts"}]}')
 				}
 			}
 
