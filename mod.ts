@@ -1,7 +1,8 @@
 // deno-lint-ignore-file no-explicit-any
 import { CLI } from './src/CLI.ts'
-import yargs from "https://deno.land/x/yargs@v17.5.1-deno/deno.ts"
+import yargs from 'https://deno.land/x/yargs@v17.5.1-deno/deno.ts'
 import { comMojangFolder } from './src/comMojangFolder.ts'
+import { initRuntimes, swcVersion } from './src/deps.ts'
 
 // @ts-ignore: Required by some of our dependencies
 window.global = window
@@ -12,6 +13,8 @@ window.process = {
 }
 
 type YargsInstance = ReturnType<typeof yargs>
+
+initRuntimes(`https://esm.sh/@swc/wasm-web@${swcVersion}/wasm-web_bg.wasm`)
 
 if (import.meta.main) {
 	const cli = new CLI()
@@ -48,35 +51,38 @@ if (import.meta.main) {
 			'watch',
 			'Build the current project and watch for future changes',
 			(yargs: YargsInstance) => {
-				return yargs
-					.option('out', {
-						alias: 'o',
-						description: 'The output directory',
-						type: 'string',
-						default: comMojangFolder,
-					})
-					.option('mode', {
-						alias: 'm',
-						description: 'The mode to build for',
-						type: 'string',
-						default: 'development',
-						choices: ['development', 'production'],
-					})
-					.option('compilerConfig', {
-						alias: 'c',
-						description: 'The compiler config file',
-						type: 'string',
-					})
-					.option('reload', {
-						alias: 'r',
-						description: 'Quick reload for functions and scripts',
-						type: 'number',
-					})
-					// Need to use coerce rather than "default" so we can differentiate between when the option isn't used or is used without an argument
-					.coerce('reload', (arg: any) => {
-						if (!arg) return 8080
-						else return arg
-					})
+				return (
+					yargs
+						.option('out', {
+							alias: 'o',
+							description: 'The output directory',
+							type: 'string',
+							default: comMojangFolder,
+						})
+						.option('mode', {
+							alias: 'm',
+							description: 'The mode to build for',
+							type: 'string',
+							default: 'development',
+							choices: ['development', 'production'],
+						})
+						.option('compilerConfig', {
+							alias: 'c',
+							description: 'The compiler config file',
+							type: 'string',
+						})
+						.option('reload', {
+							alias: 'r',
+							description:
+								'Quick reload for functions and scripts',
+							type: 'number',
+						})
+						// Need to use coerce rather than "default" so we can differentiate between when the option isn't used or is used without an argument
+						.coerce('reload', (arg: any) => {
+							if (!arg) return 8080
+							else return arg
+						})
+				)
 			},
 			async (argv: any) => {
 				await cli.watch(argv)
