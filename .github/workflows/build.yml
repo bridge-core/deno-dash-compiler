@@ -18,14 +18,9 @@ jobs:
                   deno-version: v1.x
             - name: 'Build Executable'
               run: deno task build
-            - name: Commit build artifacts ✅
-              run: |
-                  git config --local user.email "action@github.com"
-                  git config --local user.name "GitHub Action"
-                  git add -A && git commit -m "upd: add latest executables"
-            - name: Push changes 🔼
-              uses: ad-m/github-push-action@v0.6.0
+            - name: Upload Executables
+              uses: alexellis/upload-assets@0.2.2
+              env:
+                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
               with:
-                  repository: 'bridge-core/deno-dash-compiler'
-                  branch: 'main'
-                  github_token: ${{ secrets.GITHUB_TOKEN }}
+                asset_paths: '["./executables/dash*"]'
