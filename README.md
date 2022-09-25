@@ -13,7 +13,7 @@ There are multiple methods to install Dash:
 **(For Windows or macOS)**
 
 A standalone Dash executable can be [downloaded from this repository's
-Releases page](https://github.com/bridge-core/deno-dash-compiler/tree/main/executables).
+Releases page](https://github.com/bridge-core/deno-dash-compiler/releases).
 
 ---
 
