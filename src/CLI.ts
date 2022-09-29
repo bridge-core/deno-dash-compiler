@@ -18,13 +18,14 @@ export class CLI {
 		const outFs = out ? new DenoFileSystem(out) : undefined
 
 		const dash = new Dash(this.fs, outFs, {
-			config: './config.json',
+			config: path.join(Deno.cwd(), './config.json'),
 			compilerConfig: compilerConfig
 				? path.join(Deno.cwd(), compilerConfig)
 				: undefined,
 			packType: <any>new PackTypeImpl(undefined),
 			fileType: <any>new FileTypeImpl(undefined, isMatch),
 			mode,
+			verbose: true,
 
 			requestJsonData: (dataPath: string) =>
 				fetch(

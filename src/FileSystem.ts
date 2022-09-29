@@ -20,7 +20,9 @@ export class DenoFileSystem extends FileSystem {
 		return new File([fileData], path.basename(filePath))
 	}
 	async writeFile(filePath: string, content: string | Uint8Array) {
-		await Deno.mkdir(path.dirname(this.resolvePath(filePath)), {
+		const dirPath = path.dirname(this.resolvePath(filePath))
+
+		await Deno.mkdir(dirPath, {
 			recursive: true,
 		})
 
@@ -47,8 +49,20 @@ export class DenoFileSystem extends FileSystem {
 
 		return entries
 	}
-	async mkdir(path: string): Promise<void> {
-		await Deno.mkdir(this.resolvePath(path), { recursive: true })
+	async copyFile(from: string, to: string, destFs = this) {
+		// Fallback to slow path if destination fs !== this
+		if (destFs !== this) return super.copyFile(from, to, destFs)
+
+		const transformedTo = this.resolvePath(to)
+		const dirPath = path.dirname(transformedTo)
+		await Deno.mkdir(dirPath, {
+			recursive: true,
+		})
+
+		await Deno.copyFile(this.resolvePath(from), transformedTo)
+	}
+	async mkdir(dirPath: string): Promise<void> {
+		await Deno.mkdir(this.resolvePath(dirPath), { recursive: true })
 	}
 	async lastModified(filePath: string) {
 		return (

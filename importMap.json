@@ -1,0 +1,6 @@
+{
+	"imports": {
+		"dash-compiler": "../dash-compiler/dist/dash-compiler.bundled.es.js",
+		"mc-project-core": "npm:mc-project-core"
+	}
+}
