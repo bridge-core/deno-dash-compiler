@@ -15,8 +15,12 @@ export class CLIWatcher {
 		const wsServer = new WebSocketServer()
 		if (reloadPort) {
 			wsServer.start(reloadPort)
-			console.log(`Auto Reloader: WebSocket is running on port ${reloadPort}.`)
-			console.log(`Auto Reloader: Connect in Minecraft by running "/connect localhost:${reloadPort}".`)
+			console.log(
+				`Auto Reloader: WebSocket is running on port ${reloadPort}.`
+			)
+			console.log(
+				`Auto Reloader: Connect in Minecraft by running "/connect localhost:${reloadPort}".`
+			)
 		}
 
 		for await (const event of watcher) {
@@ -55,52 +59,53 @@ export class CLIWatcher {
 		)
 	}
 
-	updateChangedFiles = debounce(
-		async (wss?: WebSocketServer) => {
-			for (const file of this.filesToUpdate) {
-				let stats
-				try {
-					stats = Deno.statSync(
-						path.join(this.dash.projectRoot, file)
-					)
-				} catch {
-					this.filesToUpdate.delete(file)
-					this.filesToUnlink.add(file)
-					return
-				}
-
-				if (!stats.isFile) this.filesToUpdate.delete(file)
+	updateChangedFiles = debounce(async (wss?: WebSocketServer) => {
+		for (const file of this.filesToUpdate) {
+			let stats
+			try {
+				stats = Deno.statSync(path.join(this.dash.projectRoot, file))
+			} catch {
+				this.filesToUpdate.delete(file)
+				this.filesToUnlink.add(file)
+				return
 			}
 
-			if (this.filesToUpdate.size > 0) {
-				await this.dash.updateFiles([...this.filesToUpdate])
-			}
-
-			if (this.filesToUnlink.size > 0) {
-				console.log(
-					'Dash: Unlinking',
-					[...this.filesToUnlink].join(', ')
-				)
-				await this.dash.unlinkMultiple([...this.filesToUnlink])
-			}
-			if (wss && wss.isStarted) {
-				const isScriptOrFunction = (p: string) => path.extname(p) === '.mcfunction' || path.extname(p) === '.js' || path.extname(p) === '.ts'
-				if ([...this.filesToUpdate, ...this.filesToUnlink].some(file => isScriptOrFunction(file))) {
-					const { status, message } = await wss.runCommand('reload') ?? {}
-					if (status === 0) {
-						wss.runCommand('tellraw @s {"rawtext":[{"text":"Dash Auto Reloader has reloaded functions and scripts"}]}')
-					} else {
-						wss.runCommand(`tellraw @s {"rawtext":[{"text":"Dash Auto Reloader failed to reload functions and scripts. \nError message: ${message}"}]}`)
-					}
-				}
-			}
-
-			this.filesToUpdate.clear()
-			this.filesToUnlink.clear()
-		},
-		200,
-		{
-			trailing: true,
+			if (!stats.isFile) this.filesToUpdate.delete(file)
 		}
-	)
+
+		if (this.filesToUpdate.size > 0) {
+			await this.dash.updateFiles([...this.filesToUpdate])
+		}
+
+		if (this.filesToUnlink.size > 0) {
+			console.log('Dash: Unlinking', [...this.filesToUnlink].join(', '))
+			await this.dash.unlinkMultiple([...this.filesToUnlink])
+		}
+		if (wss && wss.isStarted) {
+			const isScriptOrFunction = (p: string) =>
+				path.extname(p) === '.mcfunction' ||
+				path.extname(p) === '.js' ||
+				path.extname(p) === '.ts'
+			if (
+				[...this.filesToUpdate, ...this.filesToUnlink].some((file) =>
+					isScriptOrFunction(file)
+				)
+			) {
+				const { status, message } =
+					(await wss.runCommand('reload')) ?? {}
+				if (status === 0) {
+					wss.runCommand(
+						'tellraw @s {"rawtext":[{"text":"Dash Auto Reloader has reloaded functions and scripts"}]}'
+					)
+				} else {
+					wss.runCommand(
+						`tellraw @s {"rawtext":[{"text":"Dash Auto Reloader failed to reload functions and scripts. \nError message: ${message}"}]}`
+					)
+				}
+			}
+		}
+
+		this.filesToUpdate.clear()
+		this.filesToUnlink.clear()
+	}, 200)
 }
