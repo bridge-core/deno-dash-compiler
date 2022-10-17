@@ -7,5 +7,27 @@
 		"build:apple-x86": "deno compile --target x86_64-apple-darwin --output ./executables/dash-apple-x64 -A ./mod.ts",
 		"build:apple-aarch64": "deno compile --target aarch64-apple-darwin --output ./executables/dash-apple-aarch64 -A ./mod.ts",
 		"build:windows-x86": "deno compile --target x86_64-pc-windows-msvc  --output ./executables/dash.exe -A ./mod.ts"
+	},
+	"fmt": {
+		"files": {
+			"include": ["*.json", "*.ts", "*.tsx", "src/"]
+		},
+		"options": {
+			"useTabs": true,
+			"lineWidth": 80,
+			"indentWidth": 4,
+			"singleQuote": true
+		}
+	},
+	"lint": {
+		"files": {
+			"include": ["*.ts", "src/"],
+			"exclude": ["dist/", ".vscode/", ".github/"]
+		},
+		"rules": {
+			"tags": ["recommended"],
+			"include": ["ban-untagged-todo"],
+			"exclude": []
+		}
 	}
 }
