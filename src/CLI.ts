@@ -1,6 +1,6 @@
 // deno-lint-ignore-file no-explicit-any
 import { CLIWatcher } from './CLIWatcher.ts'
-import { previewComMojangFolder } from './comMojangFolder.ts'
+import { comMojangFolder, previewComMojangFolder } from './comMojangFolder.ts'
 import { Dash, isMatch, path } from './deps.ts'
 import { DenoFileSystem } from './FileSystem.ts'
 import { FileTypeImpl, PackTypeImpl } from './McProjectCore.ts'
@@ -44,6 +44,11 @@ export class CLI {
 	verifyOptions(options: IDashOptions) {
 		if (options.out === 'preview') {
 			options.out = previewComMojangFolder ?? undefined
+		}
+
+		// Fallback to com.mojang folder by default in development mode
+		if (options.mode === 'development' && options.out === undefined) {
+			options.out = comMojangFolder ?? undefined
 		}
 	}
 
