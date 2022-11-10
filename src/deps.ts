@@ -8,7 +8,11 @@ export {
 } from 'https://esm.sh/mc-project-core@0.3.21'
 export { isMatch } from 'https://esm.sh/bridge-common-utils@0.3.3'
 // @deno-types="https://esm.sh/dash-compiler@0.10.4"
-export { Dash, FileSystem, initRuntimes } from 'dash-compiler'
+export {
+	Dash,
+	FileSystem,
+	initRuntimes,
+} from 'https://raw.githubusercontent.com/bridge-core/dash-compiler/main/dist/dash-compiler.bundled.es.js'
 export { default as json5 } from 'https://esm.sh/json5@2.2.1'
 export { debounce } from 'https://deno.land/std@0.156.0/async/mod.ts?s=debounce'
 import { default as dashPackageJson } from 'https://raw.githubusercontent.com/bridge-core/dash-compiler/main/package.json' assert { type: 'json' }
