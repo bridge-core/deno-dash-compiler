@@ -27,9 +27,9 @@ export class CLIWatcher {
 			if (['success', 'other', 'any'].includes(event.kind)) continue
 
 			event.paths.forEach((path) => {
-				if (this.ignorePath(path)) return
-
 				const transformed = this.transformPath(path)
+				
+				if (this.ignorePath(transformed)) return
 				if (transformed.match(outputFolderPattern)) return
 
 				if (event.kind === 'create' || event.kind === 'modify') {
@@ -51,11 +51,12 @@ export class CLIWatcher {
 			.replace(/\\/g, '/')
 	}
 
-	ignorePath(path: string) {
+	ignorePath(filePath: string) {
 		return (
-			path.endsWith('.crswap') ||
-			path.endsWith('.DS_Store') ||
-			path.includes('.bridge')
+			filePath.endsWith('.crswap') ||
+			filePath.endsWith('.DS_Store') ||
+			filePath.startsWith('.bridge') ||
+			filePath.startsWith('.git')
 		)
 	}
 
