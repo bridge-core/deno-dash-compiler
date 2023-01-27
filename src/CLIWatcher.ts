@@ -9,7 +9,7 @@ export class CLIWatcher {
 	constructor(protected dash: Dash) {}
 
 	async watch(reloadPort?: number) {
-		console.log(`Dash is starting to watch "${this.dash.projectRoot}"!`)
+		console.log(`Dash is starting to watch "${path.resolve(this.dash.projectRoot)}"!`)
 
 		const watcher = Deno.watchFs(this.dash.projectRoot)
 		const wsServer = new WebSocketServer()
