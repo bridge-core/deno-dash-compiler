@@ -1,7 +1,7 @@
 // deno-lint-ignore-file no-explicit-any
 import { CLIWatcher } from './CLIWatcher.ts'
 import { comMojangFolder, previewComMojangFolder } from './comMojangFolder.ts'
-import { Dash, isMatch, path } from './deps.ts'
+import { Dash, isMatch, path} from './deps.ts'
 import { DenoFileSystem } from './FileSystem.ts'
 import { FileTypeImpl, PackTypeImpl } from './McProjectCore.ts'
 
@@ -18,7 +18,8 @@ export class CLI {
 		const outFs = out ? new DenoFileSystem(out) : undefined
 
 		const dash = new Dash(this.fs, outFs, {
-			config: path.join(Deno.cwd(), './config.json'),
+			config:  await this.getProjectConfig(),
+			//config: path.join(Deno.cwd(), './config.json'),
 			compilerConfig: compilerConfig
 				? path.join(Deno.cwd(), compilerConfig)
 				: undefined,
@@ -50,6 +51,17 @@ export class CLI {
 		if (options.mode === 'development' && options.out === undefined) {
 			options.out = comMojangFolder ?? undefined
 		}
+	}
+
+	async getProjectConfig(){
+		let projectConfigPath = ''
+		 try {
+			await this.fs.readFile('dash-config.json')
+			projectConfigPath = path.join(Deno.cwd(), './dash-config.json')
+		} catch (_error) {
+			projectConfigPath = path.join(Deno.cwd(), './config.json')
+		}
+		return projectConfigPath;
 	}
 
 	async build(options: IDashOptions) {
