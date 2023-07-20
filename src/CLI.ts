@@ -1,7 +1,7 @@
 // deno-lint-ignore-file no-explicit-any
 import { CLIWatcher } from './CLIWatcher.ts'
 import { comMojangFolder, previewComMojangFolder } from './comMojangFolder.ts'
-import { Dash, isMatch, path} from './deps.ts'
+import { Dash, isMatch, path } from './deps.ts'
 import { DenoFileSystem } from './FileSystem.ts'
 import { FileTypeImpl, PackTypeImpl } from './McProjectCore.ts'
 
