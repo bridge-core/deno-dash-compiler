@@ -19,7 +19,6 @@ export class CLI {
 
 		const dash = new Dash(this.fs, outFs, {
 			config:  await this.getProjectConfig(),
-			//config: path.join(Deno.cwd(), './config.json'),
 			compilerConfig: compilerConfig
 				? path.join(Deno.cwd(), compilerConfig)
 				: undefined,
