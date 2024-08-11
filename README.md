@@ -50,6 +50,7 @@ current working directory in production mode.
 
 - `--mode development`: Tell bridge. that you want to compile a development
   build
+- `--out preview`: Tell bridge. that you want to compile the project to Minecraft Preview instead of Stable
 - `--compilerConfig [path]`: Compile the project with a different set of plugins
 
 ### Watching for changes
