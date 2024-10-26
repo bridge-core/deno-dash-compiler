@@ -9,26 +9,25 @@ jobs:
         runs-on: macos-latest
         steps:
             - name: Checkout 🛎️
-              uses: actions/checkout@v2.3.1
+              uses: actions/checkout@v4
               with:
                   persist-credentials: false
             - name: Install Deno 🦕
-              uses: denoland/setup-deno@v1
+              uses: denoland/setup-deno@v2
               with:
-                  deno-version: v1.x
+                  deno-version: v2.x
             - name: 'Build Executable'
               run: deno task build
             - name: Upload Executables as Artifacts
               if: github.ref_type == 'branch'
-              uses: actions/upload-artifact@v2
+              uses: actions/upload-artifact@v4
               with:
-                name: ${{ format('dash-{0}-{1}-{2}', github.run_id, github.run_number, github.run_attempt) }}
-                path: 'executables/*'
+                  name: ${{ format('dash-{0}-{1}-{2}', github.run_id, github.run_number, github.run_attempt) }}
+                  path: 'executables/*'
             - name: Upload Executables as Release
               if: github.ref_type == 'tag'
-              uses: AButler/upload-release-assets@v2.0
+              uses: AButler/upload-release-assets@v3.0
               with:
-                files: 'executables/*'
-                release-tag: ${{ github.ref_name }}
-                repo-token: ${{ secrets.GITHUB_TOKEN }}
-
+                  files: 'executables/*'
+                  release-tag: ${{ github.ref_name }}
+                  repo-token: ${{ secrets.GITHUB_TOKEN }}

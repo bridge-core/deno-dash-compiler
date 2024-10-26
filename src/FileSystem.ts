@@ -30,7 +30,7 @@ export class DenoFileSystem extends FileSystem {
 			await Deno.writeTextFile(this.resolvePath(filePath), content)
 		else return Deno.writeFile(this.resolvePath(filePath), content)
 	}
-	async readJson(filePath: string) {
+	override async readJson(filePath: string) {
 		const fileContent = await Deno.readTextFile(this.resolvePath(filePath))
 		return json5.parse(fileContent)
 	}
@@ -42,14 +42,14 @@ export class DenoFileSystem extends FileSystem {
 
 		for await (const entry of Deno.readDir(this.resolvePath(path))) {
 			entries.push(<const>{
-				name: entry.name,
-				kind: entry.isDirectory ? 'directory' : 'file',
+					name: entry.name,
+					kind: entry.isDirectory ? 'directory' : 'file',
 			})
 		}
 
 		return entries
 	}
-	async copyFile(from: string, to: string, destFs = this) {
+	override async copyFile(from: string, to: string, destFs = this) {
 		// Fallback to slow path if destination fs !== this
 		if (destFs !== this) return super.copyFile(from, to, destFs)
 

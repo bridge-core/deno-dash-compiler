@@ -1,16 +1,8 @@
 // deno-lint-ignore-file no-explicit-any
 import { CLI } from './src/CLI.ts'
-import yargs from 'https://deno.land/x/yargs@v17.5.1-deno/deno.ts'
+import yargs from 'https://deno.land/x/yargs@v17.7.2-deno/deno.ts'
 import { comMojangFolder } from './src/comMojangFolder.ts'
 import { initRuntimes, swcVersion } from './src/deps.ts'
-
-// @ts-ignore: Required by some of our dependencies
-window.global = window
-// @ts-ignore: Required by some of our dependencies
-window.process = {
-	cwd: () => '',
-	env: {},
-}
 
 type YargsInstance = ReturnType<typeof yargs>
 
