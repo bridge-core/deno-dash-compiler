@@ -4,9 +4,10 @@
 		"@bridge-editor/mc-project-core": "npm:@bridge-editor/mc-project-core@^0.4.0",
 		"@std/async": "jsr:@std/async@^1.0.7",
 		"@std/path": "jsr:@std/path@^1.0.7",
+		"@std/semver": "jsr:@std/semver@^1.0.3",
 		"dash-compiler-local": "../dash-compiler/dist/dash-compiler.bundled.es.js"
 	},
-	"version": "1.0.0-alpha",
+	"version": "0.5.0",
 	"tasks": {
 		"install": "deno install -A -f -n dash_compiler ./mod.ts",
 		"install:full": "deno install -A --reload -f -n dash_compiler ./mod.ts",

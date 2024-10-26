@@ -4,6 +4,7 @@
     "jsr:@std/async@*": "1.0.7",
     "jsr:@std/async@^1.0.7": "1.0.7",
     "jsr:@std/path@^1.0.7": "1.0.7",
+    "jsr:@std/semver@^1.0.3": "1.0.3",
     "npm:@bridge-editor/common-utils@~0.3.3": "0.3.3",
     "npm:@bridge-editor/mc-project-core@0.4": "0.4.0"
   },
@@ -13,6 +14,9 @@
     },
     "@std/path@1.0.7": {
       "integrity": "76a689e07f0e15dcc6002ec39d0866797e7156629212b28f27179b8a5c3b33a1"
+    },
+    "@std/semver@1.0.3": {
+      "integrity": "7c139c6076a080eeaa4252c78b95ca5302818d7eafab0470d34cafd9930c13c8"
     }
   },
   "npm": {
@@ -207,6 +211,7 @@
     "dependencies": [
       "jsr:@std/async@^1.0.7",
       "jsr:@std/path@^1.0.7",
+      "jsr:@std/semver@^1.0.3",
       "npm:@bridge-editor/common-utils@~0.3.3",
       "npm:@bridge-editor/mc-project-core@0.4"
     ]
