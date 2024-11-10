@@ -26,7 +26,7 @@ Releases page](https://github.com/bridge-core/deno-dash-compiler/releases).
 Open your terminal and run:
 
 ```shell
-deno install -A -f --reload -n dash_compiler https://raw.githubusercontent.com/bridge-core/deno-dash-compiler/main/mod.ts
+deno install -A --global -f --reload -n dash_compiler https://raw.githubusercontent.com/bridge-core/deno-dash-compiler/main/mod.ts
 ```
 
 #### Via Deno's Task Runner
