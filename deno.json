@@ -7,7 +7,7 @@
 		"@std/semver": "jsr:@std/semver@^1.0.3",
 		"dash-compiler-local": "../dash-compiler/dist/dash-compiler.bundled.es.js"
 	},
-	"version": "1.0.0-alpha",
+	"version": "1.0.0",
 	"tasks": {
 		"install": "deno install -A -f -n dash_compiler ./mod.ts",
 		"install:full": "deno install -A --reload -f -n dash_compiler ./mod.ts",
