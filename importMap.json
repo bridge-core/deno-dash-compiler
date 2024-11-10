@@ -2,6 +2,7 @@
 	"imports": {
 		"dash-compiler": "https://raw.githubusercontent.com/bridge-core/dash-compiler/main/dist/dash-compiler.bundled.es.js",
 		"dash-compiler-local": "../dash-compiler/dist/dash-compiler.bundled.es.js",
-		"mc-project-core": "npm:mc-project-core"
+		"mc-project-core": "npm:mc-project-core",
+		"semver": "jsr:@std/semver@^1.0.3"
 	}
 }
