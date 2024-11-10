@@ -20,7 +20,7 @@ jobs:
               run: deno task build
             - name: Upload Executables as Artifacts
               if: github.ref_type == 'branch'
-              uses: actions/upload-artifact@v2
+              uses: actions/upload-artifact@v4
               with:
                 name: ${{ format('dash-{0}-{1}-{2}', github.run_id, github.run_number, github.run_attempt) }}
                 path: 'executables/*'
