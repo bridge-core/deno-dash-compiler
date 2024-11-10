@@ -26,7 +26,7 @@ jobs:
                 path: 'executables/*'
             - name: Upload Executables as Release
               if: github.ref_type == 'tag'
-              uses: AButler/upload-release-assets@v2.0
+              uses: AButler/upload-release-assets@v3.0
               with:
                 files: 'executables/*'
                 release-tag: ${{ github.ref_name }}
