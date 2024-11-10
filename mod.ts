@@ -14,7 +14,7 @@ window.process = {
 }
 
 type YargsInstance = ReturnType<typeof yargs>
-const CURRENT_VERSION = `0.4.6`
+const CURRENT_VERSION = `0.4.4`
 
 async function fetchLatestVersion(): Promise<string | null> {
     try {
@@ -43,7 +43,6 @@ async function checkForUpdates() {
     const latestVersion = await fetchLatestVersion();
     if (latestVersion && compareVersions(CURRENT_VERSION, latestVersion)) {
         console.log(`%cA new version (${latestVersion}) is available. You are currently using version v${CURRENT_VERSION}.`, 'color: red; font-weight:bold;');
-        console.log('%cPlease update to the latest version: https://github.com/bridge-core/deno-dash-compiler\n', 'font-weight:bold;');
     }
 }
 
