@@ -5,10 +5,42 @@ import { comMojangFolder } from './src/comMojangFolder.ts'
 import { initRuntimes, swcVersion } from './src/deps.ts'
 
 type YargsInstance = ReturnType<typeof yargs>
+const CURRENT_VERSION = `0.4.7`
+
+async function fetchLatestVersion(): Promise<string | null> {
+    try {
+        const response = await fetch('https://api.github.com/repos/bridge-core/deno-dash-compiler/releases/latest');
+        if (!response.ok) {
+            return null;
+        }
+        const data = await response.json();
+        return data.tag_name;
+    } catch (error) {
+        console.error('Error fetching the latest version:', error);
+        return null;
+    }
+}
+
+function compareVersions(current: string, latest: string): boolean {
+	const currentVersion = semverParse(current);
+	const latestVersion = semverParse(latest);
+	if (!currentVersion || !latestVersion) {
+		throw new Error('Invalid version format');
+	}
+	return semverCompare(currentVersion, latestVersion) < 0;
+}
+
+async function checkForUpdates() {
+    const latestVersion = await fetchLatestVersion();
+    if (latestVersion && compareVersions(CURRENT_VERSION, latestVersion)) {
+        console.log(`%cA new version (${latestVersion}) is available. You are currently using version v${CURRENT_VERSION}.`, 'color: red; font-weight:bold;');
+    }
+}
 
 initRuntimes(`https://esm.sh/@swc/wasm-web@${swcVersion}/wasm-web_bg.wasm`)
 
 if (import.meta.main) {
+	await checkForUpdates();
 	const cli = new CLI()
 
 	yargs(Deno.args)
