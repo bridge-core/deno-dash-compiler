@@ -15,7 +15,7 @@ export {
 } from 'https://raw.githubusercontent.com/bridge-core/dash-compiler/main/dist/dash-compiler.bundled.es.js'
 export { default as json5 } from 'https://esm.sh/json5@2.2.1'
 export { debounce } from 'https://deno.land/std@0.156.0/async/mod.ts?s=debounce'
-import { default as dashPackageJson } from 'https://raw.githubusercontent.com/bridge-core/dash-compiler/main/package.json' assert { type: 'json' }
+import { default as dashPackageJson } from 'https://raw.githubusercontent.com/bridge-core/dash-compiler/main/package.json' with { type: 'json' }
 
 let swcVersion = dashPackageJson.dependencies['@swc/wasm-web']
 if (swcVersion.startsWith('^')) swcVersion = swcVersion.slice(1)
