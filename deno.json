@@ -1,29 +1,33 @@
 {
-	"importMap": "importMap.json",
+	"imports": {
+		"@bridge-editor/common-utils": "npm:@bridge-editor/common-utils@^0.3.3",
+		"@bridge-editor/mc-project-core": "npm:@bridge-editor/mc-project-core@^0.4.0",
+		"@std/async": "jsr:@std/async@^1.0.7",
+		"@std/path": "jsr:@std/path@^1.0.7",
+		"@std/semver": "jsr:@std/semver@^1.0.3",
+		"dash-compiler-local": "../dash-compiler/dist/dash-compiler.bundled.es.js"
+	},
+	"version": "1.0.0",
 	"tasks": {
-		"install": "deno install -A -f -n dash_compiler ./mod.ts",
-		"install:full": "deno install -A --reload -f -n dash_compiler ./mod.ts",
+		"install": "deno install --global -A -f -n dash_compiler ./mod.ts",
+		"install:full": "deno install --global -A --reload -f -n dash_compiler ./mod.ts",
 		"build": "deno task build:apple-x86 && deno task build:apple-aarch64 && deno task build:windows-x86",
 		"build:apple-x86": "deno compile --target x86_64-apple-darwin --output ./executables/dash-apple-x64 -A ./mod.ts",
 		"build:apple-aarch64": "deno compile --target aarch64-apple-darwin --output ./executables/dash-apple-aarch64 -A ./mod.ts",
 		"build:windows-x86": "deno compile --target x86_64-pc-windows-msvc  --output ./executables/dash.exe -A ./mod.ts"
 	},
 	"fmt": {
-		"files": {
-			"include": ["*.json", "*.ts", "*.tsx", "src/"]
-		},
-		"options": {
-			"useTabs": true,
-			"lineWidth": 80,
-			"indentWidth": 4,
-			"singleQuote": true
-		}
+		"include": ["*.json", "*.ts", "*.tsx", "src/"],
+		"exclude": ["dist/", ".vscode/", ".github/", "README.md", "deno.lock"],
+		"useTabs": true,
+		"lineWidth": 80,
+		"semiColons": false,
+		"indentWidth": 4,
+		"singleQuote": true
 	},
 	"lint": {
-		"files": {
-			"include": ["*.ts", "src/"],
-			"exclude": ["dist/", ".vscode/", ".github/"]
-		},
+		"include": ["*.ts", "src/"],
+		"exclude": ["dist/", ".vscode/", ".github/"],
 		"rules": {
 			"tags": ["recommended"],
 			"include": ["ban-untagged-todo"],

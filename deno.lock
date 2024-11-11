@@ -1,0 +1,86 @@
+{
+  "version": "4",
+  "specifiers": {
+    "jsr:@std/async@*": "1.0.8",
+    "jsr:@std/async@^1.0.7": "1.0.8",
+    "jsr:@std/path@*": "1.0.8",
+    "jsr:@std/path@^1.0.7": "1.0.8",
+    "jsr:@std/semver@^1.0.3": "1.0.3",
+    "npm:@bridge-editor/common-utils@~0.3.3": "0.3.3",
+    "npm:@bridge-editor/mc-project-core@0.4": "0.4.0",
+    "npm:@types/node@*": "22.5.4"
+  },
+  "jsr": {
+    "@std/async@1.0.8": {
+      "integrity": "c057c5211a0f1d12e7dcd111ab430091301b8d64b4250052a79d277383bc3ba7"
+    },
+    "@std/path@1.0.8": {
+      "integrity": "548fa456bb6a04d3c1a1e7477986b6cffbce95102d0bb447c67c4ee70e0364be"
+    },
+    "@std/semver@1.0.3": {
+      "integrity": "7c139c6076a080eeaa4252c78b95ca5302818d7eafab0470d34cafd9930c13c8"
+    }
+  },
+  "npm": {
+    "@bridge-editor/common-utils@0.3.3": {
+      "integrity": "sha512-EaOpPNoZvO7LM9lPPoT7hMb8WJrx73Wkk//V3xKgbPVPDrQHSoJyd3b1E2sARSu2UZhVo9L7Lnj13DQ2O+FAgw==",
+      "dependencies": [
+        "compare-versions"
+      ]
+    },
+    "@bridge-editor/mc-project-core@0.4.0": {
+      "integrity": "sha512-QwkJhYrjN09gAaVQGSaoVUgnvxOL1PptJC7sqqb3FaBHoUEZ6+8W1PNwxeO8RCPftq0aewcKJp6pAn9ss7UYqA==",
+      "dependencies": [
+        "@bridge-editor/common-utils",
+        "json5",
+        "path-browserify"
+      ]
+    },
+    "@types/node@22.5.4": {
+      "integrity": "sha512-FDuKUJQm/ju9fT/SeX/6+gBzoPzlVCzfzmGkwKvRHQVxi4BntVbyIwf6a4Xn62mrvndLiml6z/UBXIdEVjQLXg==",
+      "dependencies": [
+        "undici-types"
+      ]
+    },
+    "compare-versions@4.1.4": {
+      "integrity": "sha512-FemMreK9xNyL8gQevsdRMrvO4lFCkQP7qbuktn1q8ndcNk1+0mz7lgE7b/sNvbhVgY4w6tMN1FDp6aADjqw2rw=="
+    },
+    "json5@2.2.3": {
+      "integrity": "sha512-XmOWe7eyHYH14cLdVPoyg+GOH3rYX++KpzrylJwSW98t3Nk+U8XOl8FWKOgwtzdb8lXGf6zYwDUzeHMWfxasyg=="
+    },
+    "path-browserify@1.0.1": {
+      "integrity": "sha512-b7uo2UCUOYZcnF/3ID0lulOJi/bafxa1xPe7ZPsammBSpjSWQkjNxlt635YGS2MiR9GjvuXCtz2emr3jbsz98g=="
+    },
+    "undici-types@6.19.8": {
+      "integrity": "sha512-ve2KP6f/JnbPBFyobGHuerC9g1FYGn/F8n1LWTwNxCEzd6IfqTwUQcNXgEtmmQ6DlRrC1hrSrBnCZPokRrDHjw=="
+    }
+  },
+  "remote": {
+    "https://esm.sh/@bridge-editor/dash-compiler@0.11.7": "9022b115079e7eba6c29b2ce64e5cce3f4609bf37ae75be70dcceff20ee0931c",
+    "https://esm.sh/@bridge-editor/mc-project-core@0.4.0": "27c4799364c6e73715f317323db6ede7c0d6d7430d17ef7d13521a5d84e331b8",
+    "https://esm.sh/json5@2.2.3": "56ad046eba99c091fcb546d9ec3ab3463e9a889f5d52b818c91c5f2e793dbefd",
+    "https://esm.sh/v135/@bridge-editor/common-utils@0.3.3/denonext/common-utils.mjs": "36d6ab2b43f9988e23a1acede1870472ce46289166c2350f1d3d7c64ffd7f799",
+    "https://esm.sh/v135/@bridge-editor/dash-compiler@0.11.7/denonext/dash-compiler.mjs": "e16980e14a7fab10a171e9f6321407a797598f5a6dd25fc513a8c4a2967c7711",
+    "https://esm.sh/v135/@bridge-editor/js-runtime@0.4.5/denonext/js-runtime.mjs": "5e904804cb222a9e0fd6ad7994d9c4b72ffff247392e02381ae09621c06e9c30",
+    "https://esm.sh/v135/@bridge-editor/mc-project-core@0.4.0/denonext/mc-project-core.mjs": "d19bba5f627d72a8b1ffdd55bec418fbdcec588b0298a9bfe1afb24b164e7992",
+    "https://esm.sh/v135/@bridge-editor/molang@2.0.2/denonext/molang.mjs": "0e11083e84d6c9c12636d6090fc171db45701afb7d2bf7f80643e00fd00ccebd",
+    "https://esm.sh/v135/@swc/wasm-web@1.6.5/denonext/wasm-web.mjs": "328d0bd0fc0e62914ccd85d4001bbeb2f5354c0638a53a26dec9f0d62c74e947",
+    "https://esm.sh/v135/is-extglob@2.1.1/denonext/is-extglob.mjs": "43b399da3b6384e348c08e894003bd598e511c77e6079e76328085d7081a9595",
+    "https://esm.sh/v135/is-glob@4.0.3/denonext/is-glob.mjs": "f2ee9ce4250a5727fb81e5a0c96efa7f0566166a4d9ac6acb3107821b9f5f52d",
+    "https://esm.sh/v135/json5@2.2.3/denonext/json5.mjs": "2124ca68e182d9de859a72e9415bbc4702b8f0bb002a7a22ea06d6684a3e562b",
+    "https://esm.sh/v135/magic-string@0.26.7/denonext/magic-string.mjs": "7ab76b1d4f529e3321e4696c66e3beabc6ada3f3d8ddb8d585c884e9e8fecc31",
+    "https://esm.sh/v135/path-browserify@1.0.1/denonext/path-browserify.mjs": "397babbb819658714128c4dade6867153fe2a18115391c845369924aa0e3eb20",
+    "https://esm.sh/v135/sourcemap-codec@1.4.8/denonext/sourcemap-codec.mjs": "4fe24182fb99746cc4fe4092e0f78eca97819fe99b9b9c097ccdd86d07da3551",
+    "https://unpkg.com/@bridge-editor/dash-compiler@0.11.7/dist/dash-compiler.bundled.es.js": "fffac9708805c765df2d2b4276b90ed1aad2ceb0d8a1cf506babeca2dc131dcc",
+    "https://unpkg.com/@bridge-editor/dash-compiler@0.11.7/package.json": "19ea2b4b03fbe3eec35f2980ba3e67df3946880e21faad3fa4032509c93957fa"
+  },
+  "workspace": {
+    "dependencies": [
+      "jsr:@std/async@^1.0.7",
+      "jsr:@std/path@^1.0.7",
+      "jsr:@std/semver@^1.0.3",
+      "npm:@bridge-editor/common-utils@~0.3.3",
+      "npm:@bridge-editor/mc-project-core@0.4"
+    ]
+  }
+}

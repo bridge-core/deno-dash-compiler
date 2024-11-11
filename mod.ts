@@ -1,20 +1,12 @@
 // deno-lint-ignore-file no-explicit-any
 import { CLI } from './src/CLI.ts'
-import yargs from 'https://deno.land/x/yargs@v17.5.1-deno/deno.ts'
-import { parse as semverParse, compare as semverCompare } from "jsr:@std/semver";
+import yargs from 'https://deno.land/x/yargs@v17.7.2-deno/deno.ts'
+import { parse as semverParse, compare as semverCompare } from 'jsr:@std/semver'
 import { comMojangFolder } from './src/comMojangFolder.ts'
 import { initRuntimes, swcVersion } from './src/deps.ts'
 
-// @ts-ignore: Required by some of our dependencies
-window.global = window
-// @ts-ignore: Required by some of our dependencies
-window.process = {
-	cwd: () => '',
-	env: {},
-}
-
 type YargsInstance = ReturnType<typeof yargs>
-const CURRENT_VERSION = `0.4.7`
+const CURRENT_VERSION = `1.0.0`
 
 async function fetchLatestVersion(): Promise<string | null> {
     try {

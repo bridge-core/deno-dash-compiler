@@ -17,13 +17,13 @@ export class FileTypeImpl extends FileType<void> {
 		).then((resp) => resp.json())
 	}
 
-	addPluginFileType(fileDef: IFileType) {
+	override addPluginFileType(fileDef: IFileType) {
 		this._cache.clear()
 
 		return super.addPluginFileType(fileDef)
 	}
 
-	get(filePath?: string, searchFileType?: string, checkFileExtension = true) {
+	override get(filePath?: string, searchFileType?: string, checkFileExtension = true) {
 		if (!filePath || !checkFileExtension || searchFileType !== undefined) {
 			return super.get(filePath, searchFileType, checkFileExtension)
 		}
