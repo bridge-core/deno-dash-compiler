@@ -1,11 +1,11 @@
-export * as path from '@std/path'
+export * as path from 'jsr:@std/path'
 export {
 	FileType,
 	PackType,
 	ProjectConfig,
 	type IFileType,
 } from 'https://esm.sh/@bridge-editor/mc-project-core@0.4.0'
-export { isMatch } from '@bridge-editor/common-utils'
+export { isMatch } from 'npm:@bridge-editor/common-utils'
 // @deno-types="https://esm.sh/@bridge-editor/dash-compiler@0.11.7"
 export {
 	Dash,
