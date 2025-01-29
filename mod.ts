@@ -113,8 +113,7 @@ if (import.meta.main) {
 						})
 						.option("reload", {
 							alias: "r",
-							description:
-								"Quick reload for functions and scripts",
+							description: "Quick reload for functions and scripts",
 							type: "number",
 						})
 						// Need to use coerce rather than "default" so we can differentiate between when the option isn't used or is used without an argument

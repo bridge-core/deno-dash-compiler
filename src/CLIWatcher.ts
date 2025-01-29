@@ -10,9 +10,7 @@ export class CLIWatcher {
 
 	async watch(reloadPort?: number) {
 		console.log(
-			`Dash is starting to watch "${
-				path.resolve(this.dash.projectRoot)
-			}"!`,
+			`Dash is starting to watch "${path.resolve(this.dash.projectRoot)}"!`,
 		);
 
 		const watcher = Deno.watchFs(this.dash.projectRoot);
