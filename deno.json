@@ -1,7 +1,7 @@
 {
 	"imports": {
 		"@bridge-editor/common-utils": "npm:@bridge-editor/common-utils@^0.3.3",
-		"@bridge-editor/mc-project-core": "npm:@bridge-editor/mc-project-core@^0.4.0",
+		"@bridge-editor/mc-project-core": "npm:@bridge-editor/mc-project-core@^0.5.0-alpha.2",
 		"@std/async": "jsr:@std/async@^1.0.7",
 		"@std/path": "jsr:@std/path@^1.0.7",
 		"@std/semver": "jsr:@std/semver@^1.0.3",
