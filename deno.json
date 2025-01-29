@@ -39,7 +39,8 @@
 	"lint": {
 		"include": [
 			"*.ts",
-			"src/"
+			"src/",
+			"mod.ts"
 		],
 		"exclude": [
 			"dist/",
