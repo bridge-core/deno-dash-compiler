@@ -1,7 +1,7 @@
 // deno-lint-ignore-file no-explicit-any
 import { CLIWatcher } from './CLIWatcher.ts'
 import { comMojangFolder, previewComMojangFolder } from './comMojangFolder.ts'
-import { Dash, isMatch, path } from './deps.ts'
+import { Dash, isMatch } from './deps.ts'
 import { DenoFileSystem } from './FileSystem.ts'
 import { FileTypeImpl, PackTypeImpl } from './McProjectCore.ts'
 
@@ -18,22 +18,14 @@ export class CLI {
 		const outFs = out ? new DenoFileSystem(out) : undefined
 
 		const dash = new Dash(this.fs, outFs, {
-			config:  await this.getProjectConfig(),
-			compilerConfig: compilerConfig
-				? path.join(Deno.cwd(), compilerConfig)
-				: undefined,
+			config: await this.getProjectConfig(),
+			compilerConfig: compilerConfig ?? undefined,
 			packType: <any>new PackTypeImpl(undefined),
 			fileType: <any>new FileTypeImpl(undefined, isMatch),
 			mode,
 			verbose: true,
 
-			requestJsonData: (dataPath: string) =>
-				fetch(
-					dataPath.replace(
-						'data/',
-						'https://raw.githubusercontent.com/bridge-core/editor-packages/main/'
-					)
-				).then((resp) => resp.json()),
+			requestJsonData: (dataPath: string) => fetch(dataPath.replace('data/', 'https://raw.githubusercontent.com/bridge-core/editor-packages/main/')).then(resp => resp.json()),
 		})
 
 		await dash.setup()
@@ -52,15 +44,15 @@ export class CLI {
 		}
 	}
 
-	async getProjectConfig(){
+	async getProjectConfig() {
 		let projectConfigPath = ''
-		 try {
+		try {
 			await this.fs.readFile('dash-config.json')
-			projectConfigPath = path.join(Deno.cwd(), './dash-config.json')
+			projectConfigPath = './dash-config.json'
 		} catch (_error) {
-			projectConfigPath = path.join(Deno.cwd(), './config.json')
+			projectConfigPath = './config.json'
 		}
-		return projectConfigPath;
+		return projectConfigPath
 	}
 
 	async build(options: IDashOptions) {

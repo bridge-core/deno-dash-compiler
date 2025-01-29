@@ -1,13 +1,13 @@
 {
 	"imports": {
 		"@bridge-editor/common-utils": "npm:@bridge-editor/common-utils@^0.3.3",
-		"@bridge-editor/mc-project-core": "npm:@bridge-editor/mc-project-core@^0.4.0",
+		"@bridge-editor/mc-project-core": "npm:@bridge-editor/mc-project-core@^0.5.0-alpha.2",
 		"@std/async": "jsr:@std/async@^1.0.7",
 		"@std/path": "jsr:@std/path@^1.0.7",
 		"@std/semver": "jsr:@std/semver@^1.0.3",
 		"dash-compiler-local": "../dash-compiler/dist/dash-compiler.bundled.es.js"
 	},
-	"version": "1.0.0",
+	"version": "1.1.0-alpha",
 	"tasks": {
 		"install": "deno install --global -A -f -n dash_compiler ./mod.ts",
 		"install:full": "deno install --global -A --reload -f -n dash_compiler ./mod.ts",
@@ -17,8 +17,19 @@
 		"build:windows-x86": "deno compile --target x86_64-pc-windows-msvc  --output ./executables/dash.exe -A ./mod.ts"
 	},
 	"fmt": {
-		"include": ["*.json", "*.ts", "*.tsx", "src/"],
-		"exclude": ["dist/", ".vscode/", ".github/", "README.md", "deno.lock"],
+		"include": [
+			"*.json",
+			"*.ts",
+			"*.tsx",
+			"src/"
+		],
+		"exclude": [
+			"dist/",
+			".vscode/",
+			".github/",
+			"README.md",
+			"deno.lock"
+		],
 		"useTabs": true,
 		"lineWidth": 80,
 		"semiColons": false,
@@ -26,11 +37,22 @@
 		"singleQuote": true
 	},
 	"lint": {
-		"include": ["*.ts", "src/"],
-		"exclude": ["dist/", ".vscode/", ".github/"],
+		"include": [
+			"*.ts",
+			"src/"
+		],
+		"exclude": [
+			"dist/",
+			".vscode/",
+			".github/"
+		],
 		"rules": {
-			"tags": ["recommended"],
-			"include": ["ban-untagged-todo"],
+			"tags": [
+				"recommended"
+			],
+			"include": [
+				"ban-untagged-todo"
+			],
 			"exclude": []
 		}
 	}
