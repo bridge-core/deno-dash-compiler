@@ -1,13 +1,13 @@
-import { FileSystem, json5, path } from './deps.ts';
+import { FileSystem, json5, path } from "./deps.ts";
 
 export class DenoFileSystem extends FileSystem {
-	constructor(protected baseDirectory: string = '') {
+	constructor(protected baseDirectory: string = "") {
 		super();
 	}
 
 	protected resolvePath(filePath: string) {
 		// If filePath is absolute path or no baseDirectory is set, return filePath
-		if (this.baseDirectory === '' || path.isAbsolute(filePath)) {
+		if (this.baseDirectory === "" || path.isAbsolute(filePath)) {
 			return filePath;
 		}
 
@@ -27,7 +27,7 @@ export class DenoFileSystem extends FileSystem {
 			recursive: true,
 		});
 
-		if (typeof content === 'string') {
+		if (typeof content === "string") {
 			await Deno.writeTextFile(this.resolvePath(filePath), content);
 		} else return Deno.writeFile(this.resolvePath(filePath), content);
 	}
@@ -45,7 +45,7 @@ export class DenoFileSystem extends FileSystem {
 			entries.push(
 				{
 					name: entry.name,
-					kind: entry.isDirectory ? 'directory' : 'file',
+					kind: entry.isDirectory ? "directory" : "file",
 				} as const,
 			);
 		}

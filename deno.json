@@ -34,7 +34,7 @@
 		"lineWidth": 80,
 		"semiColons": true,
 		"indentWidth": 4,
-		"singleQuote": true
+		"singleQuote": false
 	},
 	"lint": {
 		"include": [

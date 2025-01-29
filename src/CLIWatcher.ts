@@ -1,7 +1,7 @@
-import { Dash, debounce, path } from './deps.ts';
-import { WebSocketServer } from './WebSocket.ts';
+import { Dash, debounce, path } from "./deps.ts";
+import { WebSocketServer } from "./WebSocket.ts";
 
-const outputFolderPattern = path.globToRegExp('projects/*/builds/**');
+const outputFolderPattern = path.globToRegExp("projects/*/builds/**");
 export class CLIWatcher {
 	protected filesToUnlink = new Set<string>();
 	protected filesToUpdate = new Set<string>();
@@ -28,7 +28,7 @@ export class CLIWatcher {
 		}
 
 		for await (const event of watcher) {
-			if (['success', 'other', 'any'].includes(event.kind)) continue;
+			if (["success", "other", "any"].includes(event.kind)) continue;
 
 			event.paths.forEach((path) => {
 				const transformed = this.transformPath(path);
@@ -36,10 +36,10 @@ export class CLIWatcher {
 				if (this.ignorePath(transformed)) return;
 				if (transformed.match(outputFolderPattern)) return;
 
-				if (event.kind === 'create' || event.kind === 'modify') {
+				if (event.kind === "create" || event.kind === "modify") {
 					this.filesToUpdate.add(transformed);
 					this.filesToUnlink.delete(transformed);
-				} else if (event.kind === 'remove') {
+				} else if (event.kind === "remove") {
 					this.filesToUnlink.add(transformed);
 					this.filesToUpdate.delete(transformed);
 				}
@@ -52,15 +52,15 @@ export class CLIWatcher {
 	transformPath(filePath: string) {
 		return path
 			.relative(this.dash.projectRoot, filePath)
-			.replace(/\\/g, '/');
+			.replace(/\\/g, "/");
 	}
 
 	ignorePath(filePath: string) {
 		return (
-			filePath.endsWith('.crswap') ||
-			filePath.endsWith('.DS_Store') ||
-			filePath.startsWith('.bridge') ||
-			filePath.startsWith('.git')
+			filePath.endsWith(".crswap") ||
+			filePath.endsWith(".DS_Store") ||
+			filePath.startsWith(".bridge") ||
+			filePath.startsWith(".git")
 		);
 	}
 
@@ -83,20 +83,20 @@ export class CLIWatcher {
 		}
 
 		if (this.filesToUnlink.size > 0) {
-			console.log('Dash: Unlinking', [...this.filesToUnlink].join(', '));
+			console.log("Dash: Unlinking", [...this.filesToUnlink].join(", "));
 			await this.dash.unlinkMultiple([...this.filesToUnlink]);
 		}
 		if (wss && wss.isStarted) {
 			const isScriptOrFunction = (p: string) =>
-				path.extname(p) === '.mcfunction' ||
-				path.extname(p) === '.js' ||
-				path.extname(p) === '.ts';
+				path.extname(p) === ".mcfunction" ||
+				path.extname(p) === ".js" ||
+				path.extname(p) === ".ts";
 			if (
 				[...this.filesToUpdate, ...this.filesToUnlink].some((file) =>
 					isScriptOrFunction(file)
 				)
 			) {
-				const { status, message } = (await wss.runCommand('reload')) ??
+				const { status, message } = (await wss.runCommand("reload")) ??
 					{};
 				if (status === 0) {
 					wss.runCommand(

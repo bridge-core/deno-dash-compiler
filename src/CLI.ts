@@ -1,12 +1,12 @@
 // deno-lint-ignore-file no-explicit-any
-import { CLIWatcher } from './CLIWatcher.ts';
-import { comMojangFolder, previewComMojangFolder } from './comMojangFolder.ts';
-import { Dash, isMatch } from './deps.ts';
-import { DenoFileSystem } from './FileSystem.ts';
-import { FileTypeImpl, PackTypeImpl } from './McProjectCore.ts';
+import { CLIWatcher } from "./CLIWatcher.ts";
+import { comMojangFolder, previewComMojangFolder } from "./comMojangFolder.ts";
+import { Dash, isMatch } from "./deps.ts";
+import { DenoFileSystem } from "./FileSystem.ts";
+import { FileTypeImpl, PackTypeImpl } from "./McProjectCore.ts";
 
 interface IDashOptions {
-	mode: 'development' | 'production';
+	mode: "development" | "production";
 	compilerConfig?: string;
 	out?: string | null;
 	reload?: number;
@@ -28,8 +28,8 @@ export class CLI {
 			requestJsonData: (dataPath: string) =>
 				fetch(
 					dataPath.replace(
-						'data/',
-						'https://raw.githubusercontent.com/bridge-core/editor-packages/main/',
+						"data/",
+						"https://raw.githubusercontent.com/bridge-core/editor-packages/main/",
 					),
 				).then((resp) => resp.json()),
 		});
@@ -40,23 +40,23 @@ export class CLI {
 	}
 
 	verifyOptions(options: IDashOptions) {
-		if (options.out === 'preview') {
+		if (options.out === "preview") {
 			options.out = previewComMojangFolder ?? undefined;
 		}
 
 		// Fallback to com.mojang folder by default in development mode
-		if (options.mode === 'development' && options.out === undefined) {
+		if (options.mode === "development" && options.out === undefined) {
 			options.out = comMojangFolder ?? undefined;
 		}
 	}
 
 	async getProjectConfig() {
-		let projectConfigPath = '';
+		let projectConfigPath = "";
 		try {
-			await this.fs.readFile('dash-config.json');
-			projectConfigPath = './dash-config.json';
+			await this.fs.readFile("dash-config.json");
+			projectConfigPath = "./dash-config.json";
 		} catch (_error) {
-			projectConfigPath = './config.json';
+			projectConfigPath = "./config.json";
 		}
 		return projectConfigPath;
 	}

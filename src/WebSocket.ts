@@ -16,15 +16,15 @@ export class WebSocketServer {
 		this.setLoopbackExemption();
 
 		Deno.serve({ port: port }, (req) => {
-			if (req.headers.get('upgrade') != 'websocket') {
-				console.log('Websocket connection: Upgrade header not found');
+			if (req.headers.get("upgrade") != "websocket") {
+				console.log("Websocket connection: Upgrade header not found");
 			}
 			const { socket, response } = Deno.upgradeWebSocket(req);
 			this.socket = socket;
 			const intervalId = this.keepAlive();
-			socket.addEventListener('close', () => {
+			socket.addEventListener("close", () => {
 				clearInterval(intervalId);
-				console.log('WebSocket connection closed!');
+				console.log("WebSocket connection closed!");
 			});
 			return response;
 		});
@@ -41,8 +41,8 @@ export class WebSocketServer {
 			header: {
 				version: 1,
 				requestId,
-				messageType: 'commandRequest',
-				messagePurpose: 'commandRequest',
+				messageType: "commandRequest",
+				messagePurpose: "commandRequest",
 			},
 			body: {
 				commandLine: command,
@@ -52,7 +52,7 @@ export class WebSocketServer {
 			this.socket.send(data);
 			return new Promise<{ message: string; status: number }>(
 				(resolve) => {
-					this.socket?.addEventListener('message', (event) => {
+					this.socket?.addEventListener("message", (event) => {
 						const res = JSON.parse(event.data.toString());
 						if (res.header.requestId === requestId) {
 							resolve({
@@ -71,32 +71,32 @@ export class WebSocketServer {
 	 */
 	async setLoopbackExemption() {
 		// Minecraft Retail Build
-		const retailCommand = new Deno.Command('CheckNetIsolation.exe', {
+		const retailCommand = new Deno.Command("CheckNetIsolation.exe", {
 			args: [
-				'LoopbackExempt',
-				'-a',
-				'-n=microsoft.minecraftuwp_8wekyb3d8bbwe',
+				"LoopbackExempt",
+				"-a",
+				"-n=microsoft.minecraftuwp_8wekyb3d8bbwe",
 			],
 		});
 		const { success: retailSuccess } = await retailCommand.output();
 		if (!retailSuccess) {
 			console.log(
-				'Unable to set network loopback exemption for Minecraft retail build.',
+				"Unable to set network loopback exemption for Minecraft retail build.",
 			);
 		}
 
 		// Minecraft Preview Build
-		const previewCommand = new Deno.Command('CheckNetIsolation.exe', {
+		const previewCommand = new Deno.Command("CheckNetIsolation.exe", {
 			args: [
-				'LoopbackExempt',
-				'-a',
-				'-n=Microsoft.MinecraftWindowsBeta_8wekyb3d8bbwe',
+				"LoopbackExempt",
+				"-a",
+				"-n=Microsoft.MinecraftWindowsBeta_8wekyb3d8bbwe",
 			],
 		});
 		const { success: previewSuccess } = await previewCommand.output();
 		if (!previewSuccess) {
 			console.log(
-				'Unable to set network loopback exemption for Minecraft preview build.',
+				"Unable to set network loopback exemption for Minecraft preview build.",
 			);
 		}
 	}
@@ -107,7 +107,7 @@ export class WebSocketServer {
 	 */
 	keepAlive() {
 		return setInterval(() => {
-			this.socket?.send('');
+			this.socket?.send("");
 		}, 25000);
 	}
 }
