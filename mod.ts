@@ -1,10 +1,7 @@
 // deno-lint-ignore-file no-explicit-any
 import { CLI } from "./src/CLI.ts";
 import yargs from "https://deno.land/x/yargs@v17.7.2-deno/deno.ts";
-import {
-	compare as semverCompare,
-	parse as semverParse,
-} from "jsr:@std/semver";
+import { compare as semverCompare, parse as semverParse } from "jsr:@std/semver";
 import { comMojangFolder } from "./src/comMojangFolder.ts";
 import { initRuntimes, swcVersion } from "./src/deps.ts";
 
@@ -13,9 +10,7 @@ const CURRENT_VERSION = `1.1.0-alpha`;
 
 async function fetchLatestVersion(): Promise<string | null> {
 	try {
-		const response = await fetch(
-			"https://api.github.com/repos/bridge-core/deno-dash-compiler/releases/latest",
-		);
+		const response = await fetch("https://api.github.com/repos/bridge-core/deno-dash-compiler/releases/latest");
 		if (!response.ok) {
 			return null;
 		}
@@ -43,9 +38,7 @@ async function checkForUpdates() {
 			`%cA new version (${latestVersion}) is available. You are currently using version v${CURRENT_VERSION}.`,
 			"color: red; font-weight:bold;",
 		);
-	} else if (
-		latestVersion && compareVersions(CURRENT_VERSION, latestVersion) > 0
-	) {
+	} else if (latestVersion && compareVersions(CURRENT_VERSION, latestVersion) > 0) {
 		console.log(
 			`%cYou are using a dev version ${CURRENT_VERSION} compared to the latest version (${latestVersion}).`,
 			"color: green; font-weight:bold;",

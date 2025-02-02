@@ -23,11 +23,7 @@ export class FileTypeImpl extends FileType<void> {
 		return super.addPluginFileType(fileDef);
 	}
 
-	override get(
-		filePath?: string,
-		searchFileType?: string,
-		checkFileExtension = true,
-	) {
+	override get(filePath?: string, searchFileType?: string, checkFileExtension = true) {
 		if (!filePath || !checkFileExtension || searchFileType !== undefined) {
 			return super.get(filePath, searchFileType, checkFileExtension);
 		}

@@ -90,9 +90,7 @@ export class CLIWatcher {
 				path.extname(p) === ".js" ||
 				path.extname(p) === ".ts";
 			if (
-				[...this.filesToUpdate, ...this.filesToUnlink].some((file) =>
-					isScriptOrFunction(file)
-				)
+				[...this.filesToUpdate, ...this.filesToUnlink].some((file) => isScriptOrFunction(file))
 			) {
 				const { status, message } = (await wss.runCommand("reload")) ??
 					{};
