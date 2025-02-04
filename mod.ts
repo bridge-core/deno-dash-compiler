@@ -53,6 +53,7 @@ if (import.meta.main) {
 	const cli = new CLI();
 
 	yargs(Deno.args)
+		.scriptName("dash_compiler")
 		.command(
 			"build",
 			"Build the current project",
