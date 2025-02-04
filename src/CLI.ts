@@ -3,7 +3,7 @@ import { CLIWatcher } from "./CLIWatcher.ts";
 import { comMojangFolder, previewComMojangFolder } from "./comMojangFolder.ts";
 import { Dash, isMatch } from "./deps.ts";
 import { DenoFileSystem } from "./FileSystem.ts";
-import { getLocalData, saveLocalData } from "./LocalCache.ts";
+import { getLocalData, saveLocalData, tryInvalidateLocalData } from "./LocalCache.ts";
 import { FileTypeImpl, PackTypeImpl } from "./McProjectCore.ts";
 
 interface IDashOptions {
@@ -80,13 +80,15 @@ export class CLI {
 	async build(options: IDashOptions) {
 		this.verifyOptions(options);
 
+		await tryInvalidateLocalData();
 		const dash = await this.createDashService(options);
 		await dash.build();
 	}
 	async watch(options: IDashOptions) {
 		this.verifyOptions(options);
-		const dash = await this.createDashService(options);
 
+		await tryInvalidateLocalData();
+		const dash = await this.createDashService(options);
 		await dash.build();
 		await new CLIWatcher(dash).watch(options.reload);
 	}
