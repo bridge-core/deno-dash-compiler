@@ -1,4 +1,5 @@
 export * as path from "jsr:@std/path";
+export * as fs from "https://deno.land/std/fs/mod.ts";
 export {
 	FileType,
 	type IFileType,
