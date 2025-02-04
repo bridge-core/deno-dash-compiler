@@ -3,6 +3,7 @@ import { CLIWatcher } from "./CLIWatcher.ts";
 import { comMojangFolder, previewComMojangFolder } from "./comMojangFolder.ts";
 import { Dash, isMatch } from "./deps.ts";
 import { DenoFileSystem } from "./FileSystem.ts";
+import { getLocalData, saveLocalData } from "./LocalCache.ts";
 import { FileTypeImpl, PackTypeImpl } from "./McProjectCore.ts";
 
 interface IDashOptions {
@@ -25,13 +26,28 @@ export class CLI {
 			mode,
 			verbose: true,
 
-			requestJsonData: (dataPath: string) =>
-				fetch(
+			requestJsonData: async (dataPath: string) => {
+				const cached = await getLocalData(dataPath);
+
+				if (cached) {
+					try {
+						return JSON.parse(cached);
+					} catch {
+						// empty
+					}
+				}
+
+				const data = await fetch(
 					dataPath.replace(
 						"data/",
 						"https://raw.githubusercontent.com/bridge-core/editor-packages/main/",
 					),
-				).then((resp) => resp.json()),
+				).then((resp) => resp.json());
+
+				saveLocalData(dataPath, JSON.stringify(data));
+
+				return data;
+			},
 		});
 
 		await dash.setup();
