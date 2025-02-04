@@ -14,7 +14,7 @@ window.process = {
 }
 
 type YargsInstance = ReturnType<typeof yargs>
-const CURRENT_VERSION = `0.4.7`
+const CURRENT_VERSION = `0.4.8`
 
 async function fetchLatestVersion(): Promise<string | null> {
     try {
