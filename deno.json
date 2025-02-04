@@ -26,8 +26,16 @@
 		"singleQuote": false
 	},
 	"lint": {
-		"include": ["*.ts", "src/"],
-		"exclude": ["dist/", ".vscode/", ".github/"],
+		"include": [
+			"*.ts",
+			"src/",
+			"mod.ts"
+		],
+		"exclude": [
+			"dist/",
+			".vscode/",
+			".github/"
+		],
 		"rules": {
 			"tags": ["recommended"],
 			"include": ["ban-untagged-todo"],
