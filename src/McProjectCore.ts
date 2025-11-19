@@ -1,10 +1,25 @@
 import { FileType, IFileType, PackType } from "./deps.ts";
+import { getLocalData, saveLocalData } from "./LocalCache.ts";
 
 export class PackTypeImpl extends PackType<void> {
 	async setup() {
+		const cached = await getLocalData("packDefinitions.json");
+
+		if (cached) {
+			try {
+				this.packTypes = JSON.parse(cached);
+
+				return;
+			} catch {
+				// empty
+			}
+		}
+
 		this.packTypes = await fetch(
 			"https://raw.githubusercontent.com/bridge-core/editor-packages/main/packages/minecraftBedrock/packDefinitions.json",
 		).then((resp) => resp.json());
+
+		saveLocalData("packDefinitions.json", JSON.stringify(this.packTypes));
 	}
 }
 export class FileTypeImpl extends FileType<void> {
@@ -12,9 +27,24 @@ export class FileTypeImpl extends FileType<void> {
 
 	async setup() {
 		this._cache.clear();
+
+		const cached = await getLocalData("fileDefinitions.json");
+
+		if (cached) {
+			try {
+				this.fileTypes = JSON.parse(cached);
+
+				return;
+			} catch {
+				// empty
+			}
+		}
+
 		this.fileTypes = await fetch(
 			"https://raw.githubusercontent.com/bridge-core/editor-packages/main/dist/minecraftBedrock/fileDefinitions.json",
 		).then((resp) => resp.json());
+
+		saveLocalData("fileDefinitions.json", JSON.stringify(this.fileTypes));
 	}
 
 	override addPluginFileType(fileDef: IFileType) {
