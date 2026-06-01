@@ -4,7 +4,7 @@ export {
   type IFileType,
   PackType,
   ProjectConfig,
-} from "https://esm.sh/@bridge-editor/mc-project-core@0.5.0-alpha.2";
+} from "https://esm.sh/@bridge-editor/mc-project-core@0.5.0";
 export { isMatch } from "npm:@bridge-editor/common-utils";
 // @deno-types="https://esm.sh/@bridge-editor/dash-compiler@0.12.0"
 export {
