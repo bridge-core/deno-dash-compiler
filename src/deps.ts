@@ -12,7 +12,7 @@ export {
   FileSystem,
   initRuntimes,
 } from "https://unpkg.com/@bridge-editor/dash-compiler@0.12.0/dist/dash-compiler.bundled.es.js";
-export { default as json5 } from "https://esm.sh/json5@2.2.3";
+export * as json5 from "https://esm.sh/json5@2.2.3";
 export { debounce } from "jsr:@std/async";
 import { default as dashPackageJson } from "https://unpkg.com/@bridge-editor/dash-compiler@0.12.0/package.json" with { type: "json" };
 
