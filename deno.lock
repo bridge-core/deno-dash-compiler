@@ -206,6 +206,7 @@
     "https://esm.sh/@bridge-editor/dash-compiler@0.12.0/denonext/dash-compiler.mjs": "c59d9ea51e7b59e5a0ef99e82983e2d91aa1cd0f04780500a12209cf59330701",
     "https://esm.sh/@bridge-editor/js-runtime@0.4.5/denonext/js-runtime.mjs": "fad1078fa1e547bff2a0b2bfb1b176b2310a225ed7d74e534c1d092c7ef90727",
     "https://esm.sh/@bridge-editor/js-runtime@0.4.5?target=denonext": "ecc0ce4109c6475de778a9717d52480598244d46530be0138f7d3fc7c9e38734",
+    "https://esm.sh/@bridge-editor/mc-project-core@0.5.0": "8402e42def532cfb48e847442cea13308351b02009c5972687fb8a1f6df36742",
     "https://esm.sh/@bridge-editor/mc-project-core@0.5.0-alpha.2": "febd13e3d1b7be0d959cf3726955a7823a76b0317f9bc13f9928393b7b6d9292",
     "https://esm.sh/@bridge-editor/mc-project-core@0.5.0-alpha.2/denonext/mc-project-core.mjs": "ce13149da60165a0cd43728c324dbb2ac499761b38c630c612afcda943766bdb",
     "https://esm.sh/@bridge-editor/mc-project-core@0.5.0/denonext/mc-project-core.mjs": "cf4ebc061a1efe1f295b8de11f406d9abd362d424d2031a983053a06e7ce52f5",
