@@ -2,14 +2,26 @@
   "version": "5",
   "specifiers": {
     "jsr:@std/async@*": "1.4.0",
+    "jsr:@std/async@^1.0.7": "1.4.0",
+    "jsr:@std/data-structures@^1.1.0": "1.1.0",
     "jsr:@std/internal@^1.0.14": "1.0.14",
     "jsr:@std/path@*": "1.1.5",
+    "jsr:@std/path@^1.0.7": "1.1.5",
     "jsr:@std/semver@*": "1.0.8",
-    "npm:@bridge-editor/common-utils@*": "0.3.3"
+    "jsr:@std/semver@^1.0.3": "1.0.8",
+    "npm:@bridge-editor/common-utils@*": "0.3.3",
+    "npm:@bridge-editor/common-utils@~0.3.3": "0.3.3",
+    "npm:@bridge-editor/mc-project-core@0.5": "0.5.0"
   },
   "jsr": {
     "@std/async@1.4.0": {
-      "integrity": "4d70b008634f571cff9b554090d628c76141c32613aae0ff283fd5fa23d0c379"
+      "integrity": "4d70b008634f571cff9b554090d628c76141c32613aae0ff283fd5fa23d0c379",
+      "dependencies": [
+        "jsr:@std/data-structures"
+      ]
+    },
+    "@std/data-structures@1.1.0": {
+      "integrity": "c35ae4ad5d8e41a38573c2fe3e19b18ea2505f63cfea201edcb8720aca1f7f58"
     },
     "@std/internal@1.0.14": {
       "integrity": "291516b3d4c35024d6ffbc0a9df5bf4c64116e05b50012cf846710152d2ffdf7"
@@ -31,8 +43,23 @@
         "compare-versions"
       ]
     },
+    "@bridge-editor/mc-project-core@0.5.0": {
+      "integrity": "sha512-We4aCG8H9UTanrAOV0onT39bcoiCo0dA+jUcJxHe0Srj7Mc8DcZeEzDIU71AoSQaUwFCw15tDWOGPrk28z5nng==",
+      "dependencies": [
+        "@bridge-editor/common-utils",
+        "json5",
+        "pathe"
+      ]
+    },
     "compare-versions@4.1.4": {
       "integrity": "sha512-FemMreK9xNyL8gQevsdRMrvO4lFCkQP7qbuktn1q8ndcNk1+0mz7lgE7b/sNvbhVgY4w6tMN1FDp6aADjqw2rw=="
+    },
+    "json5@2.2.3": {
+      "integrity": "sha512-XmOWe7eyHYH14cLdVPoyg+GOH3rYX++KpzrylJwSW98t3Nk+U8XOl8FWKOgwtzdb8lXGf6zYwDUzeHMWfxasyg==",
+      "bin": true
+    },
+    "pathe@1.1.2": {
+      "integrity": "sha512-whLdWMYL2TwI08hn8/ZqAbrVemu0LNaNNJZX73O6qaIdCTfXutsLhMkjdENX0qhsQ9uIimo4/aQOmXkoon2nDQ=="
     }
   },
   "redirects": {
@@ -42,6 +69,7 @@
     "https://esm.sh/@bridge-editor/common-utils@^0.3.3?target=denonext": "https://esm.sh/@bridge-editor/common-utils@0.3.3?target=denonext",
     "https://esm.sh/@bridge-editor/js-runtime@^0.4.5?target=denonext": "https://esm.sh/@bridge-editor/js-runtime@0.4.5?target=denonext",
     "https://esm.sh/@bridge-editor/mc-project-core@^0.5.0-alpha.2?target=denonext": "https://esm.sh/@bridge-editor/mc-project-core@0.5.0?target=denonext",
+    "https://esm.sh/@bridge-editor/mc-project-core@^0.5.0?target=denonext": "https://esm.sh/@bridge-editor/mc-project-core@0.5.0?target=denonext",
     "https://esm.sh/@bridge-editor/molang@^2.0.2?target=denonext": "https://esm.sh/@bridge-editor/molang@2.0.2?target=denonext",
     "https://esm.sh/@types/is-extglob@~2.1.0/index.d.ts": "https://esm.sh/@types/is-extglob@2.1.0/index.d.ts",
     "https://esm.sh/@types/is-glob@~4.0.4/index.d.ts": "https://esm.sh/@types/is-glob@4.0.4/index.d.ts",
@@ -204,6 +232,8 @@
     "https://esm.sh/@bridge-editor/common-utils@0.3.3?target=denonext": "041dff997849a71eb7bde4dfe97fed3fe83bf1ae0b390cd725916038d29a4597",
     "https://esm.sh/@bridge-editor/dash-compiler@0.12.0": "e841c33443d545a3f6af3188f033b8648b391213d3e8eb74567462c9593ce828",
     "https://esm.sh/@bridge-editor/dash-compiler@0.12.0/denonext/dash-compiler.mjs": "c59d9ea51e7b59e5a0ef99e82983e2d91aa1cd0f04780500a12209cf59330701",
+    "https://esm.sh/@bridge-editor/dash-compiler@0.13.0": "df10805627fcfa1b207b5ca11ea0036ec3216848164ecfc17abd0d1a989cfa16",
+    "https://esm.sh/@bridge-editor/dash-compiler@0.13.0/denonext/dash-compiler.mjs": "d65f88ea1956592ad9d45bb8c4bc7861f91949d6a4b48d8b8aea15bdd27df034",
     "https://esm.sh/@bridge-editor/js-runtime@0.4.5/denonext/js-runtime.mjs": "fad1078fa1e547bff2a0b2bfb1b176b2310a225ed7d74e534c1d092c7ef90727",
     "https://esm.sh/@bridge-editor/js-runtime@0.4.5?target=denonext": "ecc0ce4109c6475de778a9717d52480598244d46530be0138f7d3fc7c9e38734",
     "https://esm.sh/@bridge-editor/mc-project-core@0.5.0": "8402e42def532cfb48e847442cea13308351b02009c5972687fb8a1f6df36742",
@@ -234,7 +264,9 @@
     "https://esm.sh/sourcemap-codec@1.4.8/denonext/sourcemap-codec.mjs": "091422cba0080444b95aeed9ed6fdfc89bfd591625c74c29b958e4b09fdc7ac2",
     "https://esm.sh/sourcemap-codec@1.4.8?target=denonext": "2d592049767f5f51140c1c31d8ea17892044bc2b56a0751268f28fe80f397f5c",
     "https://unpkg.com/@bridge-editor/dash-compiler@0.12.0/dist/dash-compiler.bundled.es.js": "bd21f1d869cec9373238ea181bad296d052308ba3b2dc9ee700edb2a9705b60d",
-    "https://unpkg.com/@bridge-editor/dash-compiler@0.12.0/package.json": "a82943f46887c3e64c461afe8271f862ef1692a40e18255d8bec763c624b4650"
+    "https://unpkg.com/@bridge-editor/dash-compiler@0.12.0/package.json": "a82943f46887c3e64c461afe8271f862ef1692a40e18255d8bec763c624b4650",
+    "https://unpkg.com/@bridge-editor/dash-compiler@0.13.0/dist/dash-compiler.bundled.es.js": "e62ffce74805ed00ecc25f5e7c46c896ebe9f6468f356b8b8d1be4d2d16dc993",
+    "https://unpkg.com/@bridge-editor/dash-compiler@0.13.0/package.json": "b7695d1b923016e10d8b9cac9ef505258445d0d1bb49a351aac5b70b424d4501"
   },
   "workspace": {
     "dependencies": [
