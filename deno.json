@@ -1,4 +1,8 @@
 {
+	"name": "@bridge-editor/deno-dash-compiler",
+	"version": "1.1.1",
+	"license": "MIT",
+	"exports": "./mod.ts",
 	"imports": {
 		"@bridge-editor/common-utils": "npm:@bridge-editor/common-utils@^0.3.3",
 		"@bridge-editor/mc-project-core": "npm:@bridge-editor/mc-project-core@^0.5.0",
@@ -7,7 +11,6 @@
 		"@std/semver": "jsr:@std/semver@^1.0.3",
 		"dash-compiler-local": "../dash-compiler/dist/dash-compiler.bundled.es.js"
 	},
-	"version": "1.1.1",
 	"tasks": {
 		"install": "deno install --global -A -f -n dash_compiler ./mod.ts",
 		"install:full": "deno install --global -A --reload -f -n dash_compiler ./mod.ts",
