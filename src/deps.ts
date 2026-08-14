@@ -1,21 +1,21 @@
-export * as path from "jsr:@std/path";
+export * as path from "jsr:@std/path@1.1.6";
 export {
   FileType,
   type IFileType,
   PackType,
   ProjectConfig,
-} from "https://esm.sh/@bridge-editor/mc-project-core@0.5.0";
-export { isMatch } from "npm:@bridge-editor/common-utils";
-// @deno-types="https://esm.sh/@bridge-editor/dash-compiler@0.14.0-alpha.6"
+} from "npm:@bridge-editor/mc-project-core@0.5.0";
+export { isMatch } from "npm:@bridge-editor/common-utils@0.3.3";
+
 export {
   Dash,
   FileSystem,
   initRuntimes,
-} from "https://unpkg.com/@bridge-editor/dash-compiler@0.14.0-alpha.6/dist/dash-compiler.bundled.es.js";
+} from "npm:@bridge-editor/dash-compiler@0.14.0-alpha.7/bundled";
 // @ts-ignore - json5 has a default export at runtime via esm.sh
-export { default as json5 } from "https://esm.sh/json5@2.2.3";
-export { debounce } from "jsr:@std/async";
-import { default as dashPackageJson } from "https://unpkg.com/@bridge-editor/dash-compiler@0.14.0-alpha.6/package.json" with { type: "json" };
+export { default as json5 } from "npm:json5@2.2.3";
+export { debounce } from "jsr:@std/async@1.5.0";
+import { default as dashPackageJson } from "npm:@bridge-editor/dash-compiler@0.14.0-alpha.7/package.json" with { type: "json" };
 
 let swcVersion = dashPackageJson.dependencies["@swc/wasm-web"];
 if (swcVersion.startsWith("^")) swcVersion = swcVersion.slice(1);
