@@ -9,7 +9,7 @@ import { comMojangFolder } from "./src/comMojangFolder.ts";
 import { initRuntimes, swcVersion } from "./src/deps.ts";
 
 type YargsInstance = ReturnType<typeof yargs>;
-const CURRENT_VERSION = `1.2.0`;
+const CURRENT_VERSION = `1.2.1`;
 
 async function fetchLatestVersion(): Promise<string | null> {
   try {
