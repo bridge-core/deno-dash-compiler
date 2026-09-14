@@ -3,6 +3,7 @@ import { CLIWatcher } from "./CLIWatcher.ts";
 import { comMojangFolder, previewComMojangFolder } from "./comMojangFolder.ts";
 import { Dash, isMatch } from "./deps.ts";
 import { DenoFileSystem } from "./FileSystem.ts";
+import { getLocalData, saveLocalData } from "./LocalCache.ts";
 import { FileTypeImpl, PackTypeImpl } from "./McProjectCore.ts";
 
 interface IDashOptions {
@@ -10,6 +11,7 @@ interface IDashOptions {
 	compilerConfig?: string;
 	out?: string | null;
 	reload?: number;
+	noCache?: boolean;
 }
 export class CLI {
 	protected fs = new DenoFileSystem();
@@ -25,13 +27,25 @@ export class CLI {
 			mode,
 			verbose: true,
 
-			requestJsonData: (dataPath: string) =>
-				fetch(
-					dataPath.replace(
-						"data/",
-						"https://raw.githubusercontent.com/bridge-core/editor-packages/main/",
-					),
-				).then((resp) => resp.json()),
+			requestJsonData: async (dataPath: string) => {
+				const cached = await getLocalData(dataPath);
+
+				if (cached) {
+					try {
+						return JSON.parse(cached);
+					} catch {
+						// empty
+					}
+				}
+
+				const data = await fetch(
+					dataPath.replace("data/", "https://raw.githubusercontent.com/bridge-core/editor-packages/main/"),
+				).then((resp) => resp.json());
+
+				saveLocalData(dataPath, JSON.stringify(data));
+
+				return data;
+			},
 		});
 
 		await dash.setup();
@@ -69,8 +83,8 @@ export class CLI {
 	}
 	async watch(options: IDashOptions) {
 		this.verifyOptions(options);
-		const dash = await this.createDashService(options);
 
+		const dash = await this.createDashService(options);
 		await dash.build();
 		await new CLIWatcher(dash).watch(options.reload);
 	}

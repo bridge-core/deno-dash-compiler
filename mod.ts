@@ -1,24 +1,39 @@
 // deno-lint-ignore-file no-explicit-any
 import { CLI } from "./src/CLI.ts";
 import yargs from "https://deno.land/x/yargs@v17.7.2-deno/deno.ts";
-import { compare as semverCompare, parse as semverParse } from "jsr:@std/semver";
+import { compare as semverCompare, parse as semverParse } from "jsr:@std/semver@1.0.8";
 import { comMojangFolder } from "./src/comMojangFolder.ts";
-import { initRuntimes, swcVersion } from "./src/deps.ts";
+import { fs, initRuntimes, path, swcVersion } from "./src/deps.ts";
+import { getLocalData, getLocalDataPath, saveLocalData, tryInvalidateLocalData } from "./src/LocalCache.ts";
 
 type YargsInstance = ReturnType<typeof yargs>;
 const CURRENT_VERSION = `1.1.1`;
 
 async function fetchLatestVersion(): Promise<string | null> {
+	const cached = await getLocalData("dash-compiler-latest-release");
+
 	try {
-		const response = await fetch("https://api.github.com/repos/bridge-core/deno-dash-compiler/releases/latest");
-		if (!response.ok) {
+		if (!cached) throw new Error("No local dash compiler cache!");
+
+		return cached;
+	} catch {
+		try {
+			const response = await fetch("https://api.github.com/repos/bridge-core/deno-dash-compiler/releases/latest");
+
+			if (!response.ok) {
+				return null;
+			}
+
+			const data = await response.json();
+
+			saveLocalData("dash-compiler-latest-release", data.tag_name);
+
+			return data.tag_name;
+		} catch (error) {
+			console.error("Error fetching the latest version:", error);
+
 			return null;
 		}
-		const data = await response.json();
-		return data.tag_name;
-	} catch (error) {
-		console.error("Error fetching the latest version:", error);
-		return null;
 	}
 }
 
@@ -46,7 +61,34 @@ async function checkForUpdates() {
 	}
 }
 
-initRuntimes(`https://esm.sh/@swc/wasm-web@${swcVersion}/wasm-web_bg.wasm`);
+async function getWasmRuntime(): Promise<string> {
+	try {
+		const cachedDataPath = await getLocalDataPath();
+
+		if (!cachedDataPath) return `https://esm.sh/@swc/wasm-web@${swcVersion}/wasm-web_bg.wasm`;
+
+		const wasmRuntimePath = path.join(cachedDataPath, "wasm-web_bg.wasm");
+
+		if (!(await fs.exists(wasmRuntimePath))) {
+			const buffer = await (await fetch(`https://esm.sh/@swc/wasm-web@${swcVersion}/wasm-web_bg.wasm`))
+				.arrayBuffer();
+
+			console.log("Caching wasm runtime!");
+
+			await saveLocalData("wasm-web_bg.wasm", buffer);
+		}
+
+		console.log("Using cached wasm runtime...");
+
+		return path.toFileUrl(wasmRuntimePath).href;
+	} catch {
+		// empty
+	}
+
+	console.log("Failed to cache wasm runtime. Using network wasm runtime...");
+
+	return `https://esm.sh/@swc/wasm-web@${swcVersion}/wasm-web_bg.wasm`;
+}
 
 if (import.meta.main) {
 	await checkForUpdates();
@@ -75,9 +117,19 @@ if (import.meta.main) {
 						alias: "c",
 						description: "The compiler config file",
 						type: "string",
+					})
+					.option("noCache", {
+						alias: "n",
+						description: "Invalidates the local data cache",
+						type: "boolean",
+						default: false,
 					});
 			},
 			async (argv: any) => {
+				await tryInvalidateLocalData(argv.noCache);
+
+				initRuntimes(await getWasmRuntime());
+
 				await cli.build(argv);
 			},
 		)
@@ -110,6 +162,12 @@ if (import.meta.main) {
 							description: "Quick reload for functions and scripts",
 							type: "number",
 						})
+						.option("noCache", {
+							alias: "n",
+							description: "Invalidates the local data cache",
+							type: "boolean",
+							default: false,
+						})
 						// Need to use coerce rather than "default" so we can differentiate between when the option isn't used or is used without an argument
 						.coerce("reload", (arg: any) => {
 							if (!arg) return 8080;
@@ -118,6 +176,10 @@ if (import.meta.main) {
 				);
 			},
 			async (argv: any) => {
+				await tryInvalidateLocalData(argv.noCache);
+
+				initRuntimes(await getWasmRuntime());
+
 				await cli.watch(argv);
 			},
 		)
