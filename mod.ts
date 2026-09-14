@@ -4,22 +4,36 @@ import yargs from "https://deno.land/x/yargs@v17.7.2-deno/deno.ts";
 import { compare as semverCompare, parse as semverParse } from "jsr:@std/semver@1.0.8";
 import { comMojangFolder } from "./src/comMojangFolder.ts";
 import { fs, initRuntimes, path, swcVersion } from "./src/deps.ts";
-import { getLocalDataPath, saveLocalData, tryInvalidateLocalData } from "./src/LocalCache.ts";
+import { getLocalData, getLocalDataPath, saveLocalData, tryInvalidateLocalData } from "./src/LocalCache.ts";
 
 type YargsInstance = ReturnType<typeof yargs>;
 const CURRENT_VERSION = `1.1.1`;
 
 async function fetchLatestVersion(): Promise<string | null> {
+	const cached = await getLocalData("dash-compiler-latest-release");
+
 	try {
-		const response = await fetch("https://api.github.com/repos/bridge-core/deno-dash-compiler/releases/latest");
-		if (!response.ok) {
+		if (!cached) throw new Error("No local dash compiler cache!");
+
+		return JSON.parse(cached).tag_name;
+	} catch {
+		try {
+			const response = await fetch("https://api.github.com/repos/bridge-core/deno-dash-compiler/releases/latest");
+
+			if (!response.ok) {
+				return null;
+			}
+
+			const data = await response.json();
+
+			saveLocalData("dash-compiler-latest-release", data.tag_name);
+
+			return data.tag_name;
+		} catch (error) {
+			console.error("Error fetching the latest version:", error);
+
 			return null;
 		}
-		const data = await response.json();
-		return data.tag_name;
-	} catch (error) {
-		console.error("Error fetching the latest version:", error);
-		return null;
 	}
 }
 
