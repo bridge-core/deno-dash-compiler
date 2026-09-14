@@ -47,7 +47,7 @@ export async function getLocalDataPath(): Promise<string | undefined> {
 	return appDataPath;
 }
 
-export async function saveLocalData(filePath: string, content: string) {
+export async function saveLocalData(filePath: string, content: string | ArrayBuffer) {
 	const localDataPath = await getLocalDataPath();
 
 	if (!localDataPath) return;
@@ -56,7 +56,11 @@ export async function saveLocalData(filePath: string, content: string) {
 
 	await fs.ensureDir(path.dirname(fullPath));
 
-	await Deno.writeTextFile(fullPath, content);
+	if (typeof content === "string") {
+		await Deno.writeTextFile(fullPath, content);
+	} else {
+		await Deno.writeFile(fullPath, new Uint8Array(content));
+	}
 
 	const timestampFilePath = path.join(localDataPath, ".timestamp");
 

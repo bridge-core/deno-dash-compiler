@@ -3,7 +3,8 @@ import { CLI } from "./src/CLI.ts";
 import yargs from "https://deno.land/x/yargs@v17.7.2-deno/deno.ts";
 import { compare as semverCompare, parse as semverParse } from "jsr:@std/semver@1.0.8";
 import { comMojangFolder } from "./src/comMojangFolder.ts";
-import { initRuntimes, swcVersion } from "./src/deps.ts";
+import { fs, initRuntimes, path, swcVersion } from "./src/deps.ts";
+import { getLocalDataPath, saveLocalData, tryInvalidateLocalData } from "./src/LocalCache.ts";
 
 type YargsInstance = ReturnType<typeof yargs>;
 const CURRENT_VERSION = `1.1.1`;
@@ -46,7 +47,38 @@ async function checkForUpdates() {
 	}
 }
 
-initRuntimes(`https://esm.sh/@swc/wasm-web@${swcVersion}/wasm-web_bg.wasm`);
+await tryInvalidateLocalData();
+
+async function getWasmRuntime(): Promise<string> {
+	try {
+		const cachedDataPath = await getLocalDataPath();
+
+		if (!cachedDataPath) return `https://esm.sh/@swc/wasm-web@${swcVersion}/wasm-web_bg.wasm`;
+
+		const wasmRuntimePath = path.join(cachedDataPath, "wasm-web_bg.wasm");
+
+		if (!(await fs.exists(wasmRuntimePath))) {
+			const buffer = await (await fetch(`https://esm.sh/@swc/wasm-web@${swcVersion}/wasm-web_bg.wasm`))
+				.arrayBuffer();
+
+			console.log("Caching wasm runtime!");
+
+			await saveLocalData("wasm-web_bg.wasm", buffer);
+		}
+
+		console.log("Using cached wasm runtime...");
+
+		return path.toFileUrl(wasmRuntimePath).href;
+	} catch {
+		// empty
+	}
+
+	console.log("Failed to cache wasm runtime. Using network wasm runtime...");
+
+	return `https://esm.sh/@swc/wasm-web@${swcVersion}/wasm-web_bg.wasm`;
+}
+
+initRuntimes(await getWasmRuntime());
 
 if (import.meta.main) {
 	await checkForUpdates();

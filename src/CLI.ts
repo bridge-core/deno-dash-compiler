@@ -80,14 +80,12 @@ export class CLI {
 	async build(options: IDashOptions) {
 		this.verifyOptions(options);
 
-		await tryInvalidateLocalData();
 		const dash = await this.createDashService(options);
 		await dash.build();
 	}
 	async watch(options: IDashOptions) {
 		this.verifyOptions(options);
 
-		await tryInvalidateLocalData();
 		const dash = await this.createDashService(options);
 		await dash.build();
 		await new CLIWatcher(dash).watch(options.reload);
