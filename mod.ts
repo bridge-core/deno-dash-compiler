@@ -7,7 +7,7 @@ import { fs, initRuntimes, path, swcVersion } from "./src/deps.ts";
 import { getLocalData, getLocalDataPath, saveLocalData, tryInvalidateLocalData } from "./src/LocalCache.ts";
 
 type YargsInstance = ReturnType<typeof yargs>;
-const CURRENT_VERSION = `1.1.1`;
+const CURRENT_VERSION = `1.2.0`;
 
 async function fetchLatestVersion(): Promise<string | null> {
 	const cached = await getLocalData("dash-compiler-latest-release");
