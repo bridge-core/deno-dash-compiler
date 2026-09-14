@@ -52,6 +52,7 @@ current working directory in production mode.
   build
 - `--out preview`: Tell bridge. that you want to compile the project to Minecraft Preview instead of stable
 - `--compilerConfig [path]`: Compile the project with a different set of plugins
+- `--noCache`: Forces the cache to invalidate
 
 ### Watching for changes
 
@@ -64,3 +65,4 @@ current working directory in production mode.
   `8080`. This option requires the Minecraft client to be exempt from network
   loopback restrictions. This exemption is set automatically as long as Dash is
   running with admin privileges.
+- `--noCache`: Forces the cache to invalidate
