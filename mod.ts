@@ -15,7 +15,7 @@ async function fetchLatestVersion(): Promise<string | null> {
 	try {
 		if (!cached) throw new Error("No local dash compiler cache!");
 
-		return JSON.parse(cached).tag_name;
+		return cached;
 	} catch {
 		try {
 			const response = await fetch("https://api.github.com/repos/bridge-core/deno-dash-compiler/releases/latest");
