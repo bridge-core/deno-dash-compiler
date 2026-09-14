@@ -11,6 +11,7 @@ interface IDashOptions {
 	compilerConfig?: string;
 	out?: string | null;
 	reload?: number;
+	noCache?: boolean;
 }
 export class CLI {
 	protected fs = new DenoFileSystem();

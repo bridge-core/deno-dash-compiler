@@ -1,11 +1,19 @@
 import { fs, path } from "./deps.ts";
 
-export async function tryInvalidateLocalData() {
+export async function tryInvalidateLocalData(forceInvalid: boolean) {
 	const localDataPath = await getLocalDataPath();
 
 	if (!localDataPath) return;
 
 	try {
+		if (forceInvalid) {
+			console.log("Invalidating local cache!");
+
+			await fs.emptyDir(localDataPath);
+
+			return;
+		}
+
 		let time = 0;
 
 		const timestampFilePath = path.join(localDataPath, ".timestamp");

@@ -61,8 +61,6 @@ async function checkForUpdates() {
 	}
 }
 
-await tryInvalidateLocalData();
-
 async function getWasmRuntime(): Promise<string> {
 	try {
 		const cachedDataPath = await getLocalDataPath();
@@ -92,8 +90,6 @@ async function getWasmRuntime(): Promise<string> {
 	return `https://esm.sh/@swc/wasm-web@${swcVersion}/wasm-web_bg.wasm`;
 }
 
-initRuntimes(await getWasmRuntime());
-
 if (import.meta.main) {
 	await checkForUpdates();
 	const cli = new CLI();
@@ -121,9 +117,19 @@ if (import.meta.main) {
 						alias: "c",
 						description: "The compiler config file",
 						type: "string",
+					})
+					.option("noCache", {
+						alias: "n",
+						description: "Invalidates the local data cache",
+						type: "boolean",
+						default: false,
 					});
 			},
 			async (argv: any) => {
+				await tryInvalidateLocalData(argv.noCache);
+
+				initRuntimes(await getWasmRuntime());
+
 				await cli.build(argv);
 			},
 		)
@@ -156,6 +162,12 @@ if (import.meta.main) {
 							description: "Quick reload for functions and scripts",
 							type: "number",
 						})
+						.option("noCache", {
+							alias: "n",
+							description: "Invalidates the local data cache",
+							type: "boolean",
+							default: false,
+						})
 						// Need to use coerce rather than "default" so we can differentiate between when the option isn't used or is used without an argument
 						.coerce("reload", (arg: any) => {
 							if (!arg) return 8080;
@@ -164,6 +176,10 @@ if (import.meta.main) {
 				);
 			},
 			async (argv: any) => {
+				await tryInvalidateLocalData(argv.noCache);
+
+				initRuntimes(await getWasmRuntime());
+
 				await cli.watch(argv);
 			},
 		)
