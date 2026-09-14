@@ -7,7 +7,7 @@
 		"@std/semver": "jsr:@std/semver@^1.0.3",
 		"dash-compiler-local": "../dash-compiler/dist/dash-compiler.bundled.es.js"
 	},
-	"version": "1.1.1",
+	"version": "1.2.0",
 	"tasks": {
 		"install": "deno install --global -A -f -n dash_compiler ./mod.ts",
 		"install:full": "deno install --global -A --reload -f -n dash_compiler ./mod.ts",
@@ -17,19 +17,8 @@
 		"build:windows-x86": "deno compile --target x86_64-pc-windows-msvc  --output ./executables/dash.exe -A ./mod.ts"
 	},
 	"fmt": {
-		"include": [
-			"*.json",
-			"*.ts",
-			"*.tsx",
-			"src/"
-		],
-		"exclude": [
-			"dist/",
-			".vscode/",
-			".github/",
-			"README.md",
-			"deno.lock"
-		],
+		"include": ["*.json", "*.ts", "*.tsx", "src/"],
+		"exclude": ["dist/", ".vscode/", ".github/", "README.md", "deno.lock"],
 		"useTabs": true,
 		"lineWidth": 120,
 		"semiColons": true,
@@ -37,23 +26,11 @@
 		"singleQuote": false
 	},
 	"lint": {
-		"include": [
-			"*.ts",
-			"src/",
-			"mod.ts"
-		],
-		"exclude": [
-			"dist/",
-			".vscode/",
-			".github/"
-		],
+		"include": ["*.ts", "src/", "mod.ts"],
+		"exclude": ["dist/", ".vscode/", ".github/"],
 		"rules": {
-			"tags": [
-				"recommended"
-			],
-			"include": [
-				"ban-untagged-todo"
-			],
+			"tags": ["recommended"],
+			"include": ["ban-untagged-todo"],
 			"exclude": []
 		}
 	}
