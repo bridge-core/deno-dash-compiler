@@ -28,7 +28,12 @@ export async function tryInvalidateLocalData() {
 	}
 }
 
+// Caching this lookup save about 20ms
+let localDataPathCache: string | null = null;
+
 export async function getLocalDataPath(): Promise<string | undefined> {
+	if (localDataPathCache) return localDataPathCache;
+
 	const userDir = Deno.env.get("HOME") || Deno.env.get("USERPROFILE");
 
 	if (!userDir) return undefined;
@@ -36,6 +41,8 @@ export async function getLocalDataPath(): Promise<string | undefined> {
 	const appDataPath = path.join(userDir, ".dash");
 
 	await fs.ensureDir(appDataPath);
+
+	localDataPathCache = appDataPath;
 
 	return appDataPath;
 }
@@ -53,7 +60,7 @@ export async function saveLocalData(filePath: string, content: string) {
 
 	const timestampFilePath = path.join(localDataPath, ".timestamp");
 
-	if (!await fs.exists(timestampFilePath)) await Deno.writeTextFile(timestampFilePath, Date.now().toString());
+	if (!(await fs.exists(timestampFilePath))) await Deno.writeTextFile(timestampFilePath, Date.now().toString());
 }
 
 export async function getLocalData(filePath: string): Promise<string | undefined> {
