@@ -7,7 +7,7 @@
     "jsr:@std/path@^1.0.7": "1.1.6",
     "jsr:@std/semver@^1.0.3": "1.0.8",
     "npm:@bridge-editor/common-utils@~0.3.3": "0.3.3",
-    "npm:@bridge-editor/dash-compiler@0.14.0-alpha.7": "0.14.0-alpha.7",
+    "npm:@bridge-editor/dash-compiler@0.14.0-beta.0": "0.14.0-beta.0",
     "npm:@bridge-editor/mc-project-core@0.5": "0.5.0"
   },
   "jsr": {
@@ -40,8 +40,8 @@
         "compare-versions"
       ]
     },
-    "@bridge-editor/dash-compiler@0.14.0-alpha.7": {
-      "integrity": "sha512-U7lLr8OcFWvCLrDq3HeBAmBQVsg+xew1lwIdo1eopAb92SoBLZxCw9WCEf/Zbi0zYa4tiZ/jkazNJVJzKhYjCA==",
+    "@bridge-editor/dash-compiler@0.14.0-beta.0": {
+      "integrity": "sha512-z60DPnXonas4MreqW3vMwNyB/wOsvwAQMJfcPzMKaQQoGQfleaouBZTzZz2mXzrELlpbBpApjThza6TUd3Mf9Q==",
       "dependencies": [
         "@bridge-editor/common-utils",
         "@bridge-editor/js-runtime",
@@ -427,7 +427,7 @@
       "jsr:@std/path@^1.0.7",
       "jsr:@std/semver@^1.0.3",
       "npm:@bridge-editor/common-utils@~0.3.3",
-      "npm:@bridge-editor/dash-compiler@0.14.0-alpha.7",
+      "npm:@bridge-editor/dash-compiler@0.14.0-beta.0",
       "npm:@bridge-editor/mc-project-core@0.5"
     ]
   }
