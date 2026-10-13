@@ -1,10 +1,10 @@
 // deno-lint-ignore-file no-explicit-any
 import { CLI } from "./src/CLI.ts";
-import yargs from "https://deno.land/x/yargs@v17.7.2-deno/deno.ts";
+import yargs from "npm:yargs@17.7.3";
 import {
   compare as semverCompare,
   parse as semverParse,
-} from "jsr:@std/semver";
+} from "jsr:@std/semver@1.0.8";
 import { comMojangFolder } from "./src/comMojangFolder.ts";
 import { initRuntimes, swcVersion } from "./src/deps.ts";
 
